@@ -21,8 +21,6 @@ public class NetworkSpawnManager : MonoBehaviour, INetworkRunnerCallbacks
             Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
 
-            _cameraMovement.SetTarget(networkPlayerObject.transform);
-
             // Keep track of the player avatars for easy access
             _spawnedCharacters.Add(player, networkPlayerObject);
         }
@@ -45,6 +43,10 @@ public class NetworkSpawnManager : MonoBehaviour, INetworkRunnerCallbacks
         if (_playerInput.actions["Move"].ReadValue<Vector2>().sqrMagnitude > 0)
         {
             data.moveDirection = _playerInput.actions["Move"].ReadValue<Vector2>();
+        }
+        if (_playerInput.actions["Aim"].ReadValue<Vector2>().sqrMagnitude > 0)
+        {
+            data.aimDirection = _playerInput.actions["Aim"].ReadValue<Vector2>();
         }
 
         input.Set(data);
