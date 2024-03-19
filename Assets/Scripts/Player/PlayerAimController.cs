@@ -5,8 +5,27 @@ using UnityEngine.UIElements;
 
 public class PlayerAimController : NetworkBehaviour
 {
-    [SerializeField] private Transform _gun;
+    private NetworkObject _gun;
+    [SerializeField] private GunBase _gunPrefab;
+    [SerializeField] private Vector2 _gunSpawnOffset;
+    private GunBase _gunScript;
+
     [SerializeField] private Transform _body;
+
+    [Networked] private TickTimer _shootDelay { get; set; }
+
+    private float _angle;
+
+    public override void Spawned()
+    {
+        if (HasStateAuthority)
+        {
+            _gun = Runner.Spawn(_gunPrefab.gameObject, transform.position + (Vector3)_gunSpawnOffset, transform.rotation, Object.InputAuthority);
+            _gun.transform.parent = transform;
+            _gunScript = _gun.GetComponent<GunBase>();
+            _gunScript.Init();
+        }
+    }
 
     public override void FixedUpdateNetwork()
     {
@@ -19,7 +38,26 @@ public class PlayerAimController : NetworkBehaviour
             RotateBody(data.aimDirection);
             RotateGun(data.aimDirection);
         }
+
+        if (GetInput(out NetworkInputData shootData))
+        {
+            if (HasStateAuthority && _shootDelay.ExpiredOrNotRunning(Runner))
+            {
+                if (shootData.aimDirection != Vector2.zero)
+                {
+                    Shoot();
+                }
+            }
+        }
     }
+
+    private void Shoot()
+    {
+        _shootDelay = TickTimer.CreateFromSeconds(Runner, _gunScript.ShootDelay);
+
+        _gunScript.Shoot(_angle);
+    }
+
 
     private void RotateBody(Vector2 aimDirection)
     {
@@ -35,14 +73,16 @@ public class PlayerAimController : NetworkBehaviour
 
     private void RotateGun(Vector2 aimDirection)
     {
-        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-        
+        if (_gun == null) return;
+
+        _angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+
         if (aimDirection.x < 0)
         {
-            _gun.rotation = Quaternion.Euler(new Vector3(180, 0, angle * -1));
+            _gun.transform.rotation = Quaternion.Euler(new Vector3(180, 0, _angle * -1));
         } else
         {
-            _gun.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            _gun.transform.rotation = Quaternion.Euler(new Vector3(0, 0, _angle));
         }
     }
 }
