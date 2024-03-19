@@ -10,6 +10,7 @@ public class GameEndState : GameStateBase
 
     public override void EnterState()
     {
+        Debug.Log("Game ended!");
         base.EnterState();
     }
 

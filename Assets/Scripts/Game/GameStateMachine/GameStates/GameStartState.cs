@@ -11,6 +11,7 @@ public class GameStartState : GameStateBase
     public override void EnterState()
     {
         base.EnterState();
+        Debug.Log("Game start state!");
 
         UIManager.Instance.PlayerControllCanvas.gameObject.SetActive(true);
         UIManager.Instance.GameUICanvas.gameObject.SetActive(true);
@@ -21,6 +22,7 @@ public class GameStartState : GameStateBase
     {
         base.ExitState();
 
+        EnemiesSpawner.Instance.Init(); // Переместить к загрузке после создания лобби
         UIManager.Instance.GameStartCanvas.gameObject.SetActive(false);
     }
 

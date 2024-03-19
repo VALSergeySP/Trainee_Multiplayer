@@ -1,9 +1,15 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStateManager : MonoBehaviour
+public class GameStateManager : NetworkBehaviour
 {
+    [SerializeField] private WaveSO[] _waves;
+    [SerializeField] private float _waitTime = 30f;
+    public float WaitTime { get => _waitTime; }
+    private int _currentWave;
+
     public bool IsLoading { get; private set; }
 
     public GameStateMachine GameManagerStateMachine { get; private set; }
@@ -26,6 +32,7 @@ public class GameStateManager : MonoBehaviour
     private void Awake()
     {
         IsLoading = true;
+        _currentWave = 0;
         GameManagerStateMachine = new GameStateMachine();
 
         LoadingState = new GameLoadingState(this, GameManagerStateMachine);
@@ -52,5 +59,21 @@ public class GameStateManager : MonoBehaviour
         GameManagerStateMachine.CurrentState.PhysicsUpdate();
     }
 
+    public WaveSO GetNextWave()
+    {
+        if (_currentWave < _waves.Length)
+        {
+            _currentWave++;
+            return _waves[_currentWave - 1];
+        }
+        else
+        {
+            return null;
+        }
+    }
 
+    public bool CheckIsGameEnd()
+    {
+        return _currentWave >= _waves.Length;
+    }
 }

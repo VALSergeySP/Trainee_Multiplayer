@@ -58,6 +58,12 @@ public class EnemyFollowPlayer : EnemyIdleSOBase
 
         int num = Random.Range(0, _playersTransform.Count);
 
+        if(_playersTransform[num] == null)
+        {
+            _playersTransform.Remove(_playersTransform[num]);
+            return _playersTransform[0];
+        }
+
         return _playersTransform[num];
     }
 }
