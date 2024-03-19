@@ -5,21 +5,15 @@ using UnityEngine.InputSystem;
 
 public class CameraMovementController : MonoBehaviour
 {
-    private Transform target; 
-    [SerializeField] private float smoothSpeed = 0.125f;
+    public Transform Target;
 
-    private void Update()
+    void LateUpdate()
     {
-        if (target == null) { return; }
-        
-        Vector3 desiredPosition = target.position;
-        desiredPosition.z = transform.position.z;
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-        transform.position = smoothedPosition;
-    }
+        if (Target == null)
+        {
+            return;
+        }
 
-    public void SetTarget(Transform player)
-    {
-        target = player;
+        transform.position = new Vector3(Target.position.x, Target.position.y, transform.position.z);
     }
 }
