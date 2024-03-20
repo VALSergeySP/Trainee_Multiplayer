@@ -13,18 +13,19 @@ public class GameStartState : GameStateBase
         base.EnterState();
         Debug.Log("Game start state!");
 
-        NetworkPlayerSpawner networkPlayerSpawner = Object.FindObjectOfType<NetworkPlayerSpawner>();
-
         UIManager.Instance.GameStartCanvas.gameObject.SetActive(true);
 
-        _gameStateManager.ChangeCurrentStateId(1);
+        _gameStateManager.SendRpcStateId(1); 
     }
 
     public override void ExitState()
     {
         base.ExitState();
 
-        EnemiesSpawner.Instance.Init(); // Переместить к загрузке после создания лобби
+        if (_gameStateManager.CanSpawnObjects())
+        {
+            EnemiesSpawner.Instance.Init();
+        }
         UIManager.Instance.PlayerControllCanvas.gameObject.SetActive(true);
         UIManager.Instance.GameUICanvas.gameObject.SetActive(true);
         UIManager.Instance.GameStartCanvas.gameObject.SetActive(false);

@@ -28,13 +28,16 @@ public class PlayerAimController : NetworkBehaviour
     {
         if (Runner.TryGetInputForPlayer<NetworkInputData>(Object.InputAuthority, out var data))
         {
-            _gun.transform.position = (Vector2)transform.position + _gunSpawnOffset;
-            data.aimDirection.Normalize();
+            if (_gun != null)
+            {
+                _gun.transform.position = (Vector2)transform.position + _gunSpawnOffset;
+                data.aimDirection.Normalize();
 
-            if(data.aimDirection == Vector2.zero) { return; }
+                if (data.aimDirection == Vector2.zero) { return; }
 
+                RotateGun(data.aimDirection);
+            }
             RotateBody(data.aimDirection);
-            RotateGun(data.aimDirection);
         }
 
         if (GetInput(out NetworkInputData shootData))

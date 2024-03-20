@@ -22,7 +22,7 @@ public class GameWaitState : GameStateBase
             _gameStateManager.GameManagerStateMachine.ChangeState(_gameStateManager.EndState);
         }
 
-        _gameStateManager.ChangeCurrentStateId(3);
+        _gameStateManager.SendRpcStateId(3);
     }
 
     public override void ExitState()

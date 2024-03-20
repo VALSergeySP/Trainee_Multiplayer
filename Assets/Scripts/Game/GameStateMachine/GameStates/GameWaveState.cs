@@ -15,15 +15,19 @@ public class GameWaveState : GameStateBase
 
         _currentWave = _gameStateManager.GetNextWave();
 
-        if(_currentWave != null )
+        if (_gameStateManager.CanSpawnObjects())
         {
-            _currentWave.Init(_gameStateManager);
-        } else
-        {
-            _gameStateManager.GameManagerStateMachine.ChangeState(_gameStateManager.EndState);
+            if (_currentWave != null)
+            {
+                _currentWave.Init(_gameStateManager);
+            }
+            else
+            {
+                _gameStateManager.GameManagerStateMachine.ChangeState(_gameStateManager.EndState);
+            }
         }
 
-        _gameStateManager.ChangeCurrentStateId(2);
+        _gameStateManager.SendRpcStateId(2);
     }
 
     public override void ExitState()
@@ -35,10 +39,12 @@ public class GameWaveState : GameStateBase
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-
-        if (_currentWave != null)
+        if (_gameStateManager.CanSpawnObjects())
         {
-            _currentWave.DoFrameUpdateLogic();
+            if (_currentWave != null)
+            {
+                _currentWave.DoFrameUpdateLogic();
+            }
         }
     }
 

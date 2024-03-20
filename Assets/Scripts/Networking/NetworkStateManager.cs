@@ -1,35 +1,29 @@
 using Fusion;
 using UnityEngine;
+using static Fusion.NetworkBehaviour;
 
 public class NetworkStateManager : NetworkBehaviour
 {
-    private ChangeDetector _changeDetector;
-
-    [Networked] public int GameStateId { get; set; }
+    private int _currentStateId = 0;
+    public int GameStateId { get => _currentStateId; }
 
     private GameStateManager _gameStateManager;
 
-    public override void Spawned()
+    public void Start()
     {
-        _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
-        _gameStateManager = FindObjectOfType<GameStateManager>();
+        _gameStateManager = GetComponent<GameStateManager>();
     }
 
     public void ChangeGameState(int newState)
     {
-        GameStateId = newState;
+        _currentStateId = newState;
+        _gameStateManager.ChangeStateById(_currentStateId);
     }
 
-    public override void Render()
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All, HostMode = RpcHostMode.SourceIsServer)]
+    public void RPC_ChangeGameState(int newState)
     {
-        foreach (var change in _changeDetector.DetectChanges(this))
-        {
-            switch (change)
-            {
-                case nameof(GameStateId):
-                    _gameStateManager.ChangeStateById(GameStateId);
-                    break;
-            }
-        }
+        ChangeGameState(newState);
+        Debug.Log($"Changing state to {newState}");
     }
 }

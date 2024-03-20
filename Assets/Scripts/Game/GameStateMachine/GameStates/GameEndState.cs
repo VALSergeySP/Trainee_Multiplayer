@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 
 public class GameEndState : GameStateBase
 {
+    private int _stateId = 4;
+
     public GameEndState(GameStateManager gameStateManager, StateMachine stateMachine) : base(gameStateManager, stateMachine)
     {
     }
@@ -13,7 +16,7 @@ public class GameEndState : GameStateBase
         Debug.Log("Game ended!");
         base.EnterState();
 
-        _gameStateManager.ChangeCurrentStateId(4);
+        _gameStateManager.SendRpcStateId(_stateId);
     }
 
     public override void ExitState()

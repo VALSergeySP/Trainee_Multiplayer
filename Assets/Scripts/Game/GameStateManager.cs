@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameStateManager : NetworkBehaviour
 {
     private NetworkStateManager _networkStateManager;
+    public NetworkStateManager NetworkStateManagerInstance { get => _networkStateManager; }
 
     [SerializeField] private WaveSO[] _waves;
     [SerializeField] private float _waitTime = 30f;
@@ -26,12 +27,17 @@ public class GameStateManager : NetworkBehaviour
         IsLoading = false;
     }
 
-    public void ChangeCurrentStateId(int id)
+    public void SendRpcStateId(int id)
     {
-        if (Runner.IsServer && _networkStateManager != null)
+        if (Runner.IsServer)
         {
-            _networkStateManager.ChangeGameState(id);
+            NetworkStateManagerInstance.RPC_ChangeGameState(id);
         }
+    }
+
+    public bool CanSpawnObjects()
+    {
+        return Runner.IsServer;
     }
 
     public void ChangeStateById(int id)
@@ -62,7 +68,7 @@ public class GameStateManager : NetworkBehaviour
         IsLoading = true;
         _currentWave = 0;
         GameManagerStateMachine = new GameStateMachine();
-        _networkStateManager = GetComponent<NetworkStateManager>();
+        
 
         LoadingState = new GameLoadingState(this, GameManagerStateMachine);
         StartState = new GameStartState(this, GameManagerStateMachine);
@@ -74,6 +80,7 @@ public class GameStateManager : NetworkBehaviour
     private void Start()
     {
         GameManagerStateMachine.Initialize(LoadingState);
+        _networkStateManager = GetComponent<NetworkStateManager>();
 
         Invoke(nameof(TestFunction), 3f); // Test
     }
