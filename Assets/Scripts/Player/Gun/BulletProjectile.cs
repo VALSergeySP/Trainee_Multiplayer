@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class BulletProjectile : NetworkBehaviour
 {
+    [SerializeField] private float _startRotation = -90f;
+
     [SerializeField] private float _bulletDamage;
     public float Damage { get => _bulletDamage; }
     [SerializeField] private float _bulletSpeed = 5f;
@@ -14,15 +16,14 @@ public class BulletProjectile : NetworkBehaviour
 
     [Networked] private TickTimer life { get; set; }
 
-    public void Init(float angle)
+    public void Init(float angle, float despawnTime)
     {
-
-        _angle = angle - 90f;
+        _angle = angle + _startRotation;
 
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, _angle));
         _movementDirection = transform.up;
 
-        life = TickTimer.CreateFromSeconds(Runner, _destroyTime);
+        life = TickTimer.CreateFromSeconds(Runner, despawnTime);
     }
 
     public override void FixedUpdateNetwork()

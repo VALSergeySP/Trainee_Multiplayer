@@ -340,7 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d553a982c475be849971986008365a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gunPrefab: {fileID: 2188380245365301404, guid: 1323c66cbcd83b44e9970f6c3e2564a4, type: 3}
+  _gunPrefab: {fileID: 3377903426391374797, guid: 1323c66cbcd83b44e9970f6c3e2564a4, type: 3}
   _gunSpawnOffset: {x: 0, y: -0.2389001}
   _body: {fileID: 798338444055961794}
 --- !u!70 &2029098236172747005

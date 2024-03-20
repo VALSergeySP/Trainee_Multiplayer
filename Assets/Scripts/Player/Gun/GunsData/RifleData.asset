@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49cad20c93751c0419f4e41ecf237342, type: 3}
-  m_Name: ShotgunData
+  m_Name: RifleData
   m_EditorClassIdentifier: 
-  _name: Shotgun
-  _gunSprite: {fileID: 1772703093, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
-  _bulletPrefab: {fileID: 9218590471708536206, guid: 8265376682ab3ad4f82fedd7014e80d7, type: 3}
-  _attackDistance: 1
-  _bulletsCount: 5
-  _attackDelay: 0.7
+  _name: Rifle
+  _gunSprite: {fileID: -144335857, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
+  _bulletPrefab: {fileID: 5799742401934248376, guid: 5114c82fe1bfb59459da3460870b1f67, type: 3}
+  _attackDistance: 3
+  _bulletsCount: 1
+  _attackDelay: 0.3

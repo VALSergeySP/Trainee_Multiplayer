@@ -4,8 +4,8 @@ using UnityEngine;
 public class GunBase : NetworkBehaviour
 {
     private SpriteRenderer _gunSprite;
-    [SerializeField] private Transform _gunEndTransform;
-    [SerializeField] private GunSOBase _gunData;
+    [SerializeField] protected Transform _gunEndTransform;
+    [SerializeField] protected GunSOBase _gunData;
 
     public float ShootDelay { get => _gunData.AttackDelay; }
 
@@ -19,7 +19,7 @@ public class GunBase : NetworkBehaviour
     {
         Runner.Spawn(_gunData.Bullet.gameObject, _gunEndTransform.position, Quaternion.identity, Object.InputAuthority, (runner, o) => 
         { 
-            o.GetComponent<BulletProjectile>().Init(bulletDirection); 
+            o.GetComponent<BulletProjectile>().Init(bulletDirection, _gunData.BulletDespawnTime); 
         });
     }
 }
