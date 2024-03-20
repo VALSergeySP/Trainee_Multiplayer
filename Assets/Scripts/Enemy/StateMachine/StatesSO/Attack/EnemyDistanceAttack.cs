@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "Distance Attack", menuName = "Enemy/Attack/Distance Attack")]
 public class EnemyDistanceAttack : EnemyAttackSOBase
 {
     [SerializeField] private float _timeBetweenAttacks = 1f;
-    //[SerializeField] private Projectile _projectilePrefab;
+    [SerializeField] private BulletProjectile _projectilePrefab;
+    [SerializeField] private float _despawnTime = 3f;
 
     private float _timer;
 
@@ -36,10 +36,30 @@ public class EnemyDistanceAttack : EnemyAttackSOBase
         {
             _timer = 0f;
 
-            Debug.Log("Distance Attack!");
+            Shoot();
         }
 
         _timer += Time.deltaTime;
+    }
+
+    private void Shoot()
+    {
+        float dist = 0f;
+        float newDist;
+        Vector2 target = Vector2.zero;
+        foreach (var player in _playersTransform)
+        {
+            newDist = Vector2.Distance(_transform.position, player.position);
+            if (newDist < dist || dist == 0)
+            {
+                dist = newDist;
+                target = player.position;
+            }
+        }
+        Vector2 aimDirection = (target - (Vector2)_transform.position).normalized;
+
+        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+        EnemiesSpawner.Instance.SpawnBulletInNetwork(_projectilePrefab, _transform.position, angle, _despawnTime);
     }
 
     public override void DoPhisicsUpdateLogic()

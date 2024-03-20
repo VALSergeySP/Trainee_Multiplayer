@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ee95c12c1c58b49b9eadfd7b99de56, type: 3}
   m_Name: Distance Attack
   m_EditorClassIdentifier: 
-  _timeBetweenAttacks: 1
+  _timeBetweenAttacks: 2
+  _projectilePrefab: {fileID: 9060131982298518615, guid: bb4e7ce40a03f7342bed8ca50be79673, type: 3}
+  _despawnTime: 3

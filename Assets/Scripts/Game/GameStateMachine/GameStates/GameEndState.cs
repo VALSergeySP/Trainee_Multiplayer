@@ -12,6 +12,8 @@ public class GameEndState : GameStateBase
     {
         Debug.Log("Game ended!");
         base.EnterState();
+
+        _gameStateManager.ChangeCurrentStateId(4);
     }
 
     public override void ExitState()

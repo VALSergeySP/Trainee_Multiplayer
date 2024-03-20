@@ -14,7 +14,7 @@ public class GunSOBase : ScriptableObject
 
     [SerializeField] private float _attackDistance;
     public float BulletDespawnTime { get => _attackDistance / _bulletPrefab.BulletSpeed; }
-    public float BulletDamage { get => _bulletPrefab.Damage; }
+    public int BulletDamage { get => _bulletPrefab.Damage; }
     [SerializeField] private int _bulletsCount;
     public int BulletsCount { get => _bulletsCount; }
     [SerializeField] private float _attackDelay;

@@ -22,7 +22,6 @@ public class WaveSO : ScriptableObject
 
     public virtual void Init(GameStateManager gameManager)
     {
-        Debug.Log("Base wave!");
         _timer = 0;
         _gameManager = gameManager;
     }

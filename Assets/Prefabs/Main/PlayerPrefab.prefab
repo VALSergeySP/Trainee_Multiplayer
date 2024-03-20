@@ -207,8 +207,10 @@ GameObject:
   - component: {fileID: 5537537347865808190}
   - component: {fileID: -2057976700646425061}
   - component: {fileID: 6736940321564235712}
+  - component: {fileID: 3767625967278526742}
   - component: {fileID: -777243136558997891}
   - component: {fileID: 2029098236172747005}
+  - component: {fileID: -8748986117222404794}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -252,6 +254,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: -4134316200837990368}
   - {fileID: -2057976700646425061}
+  - {fileID: 3767625967278526742}
   - {fileID: -777243136558997891}
   - {fileID: 8306326442697160043}
 --- !u!114 &-4134316200837990368
@@ -328,6 +331,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d06340cdb0c1b48a9f90c1ae47d5c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3767625967278526742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5053740584912042128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4378eb76808e774690b2db2d2d82477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MaxHealth>k__BackingField: 100
+  _CurrentHealth: 0
 --- !u!114 &-777243136558997891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,3 +395,20 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 1}
   m_Direction: 0
+--- !u!114 &-8748986117222404794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5053740584912042128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9fd79d79a0fb459ababab9a78f00caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _physicsAuthority: 2
+  _physicsTiming: 3
+  ClientPhysicsSimulation: 0
+  DeltaTimeMultiplier: 1
+  SetUnityFixedTimestep: 0

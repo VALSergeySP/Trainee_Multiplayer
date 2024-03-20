@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable
 {
-    [field: SerializeField] public float MaxHealth { get; set; } = 100f;
-    public float CurrentHealth { get; set; }
+    [field: SerializeField] public int MaxHealth { get; set; } = 100;
+    public int CurrentHealth { get; set; }
     public Rigidbody2D RB { get; set; }
     public bool IsFacingRight { get; set; } = true;
 
@@ -82,7 +82,7 @@ public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable
         EnemyDamaged,
         EnemyKilled
     }
-    public void Damage(float damageAmount)
+    public void Damage(int damageAmount)
     {
         CurrentHealth -= damageAmount;
 

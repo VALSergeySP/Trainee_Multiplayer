@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Mellee Attack
   m_EditorClassIdentifier: 
   _timeBetweenAttacks: 1
+  _attackPrefab: {fileID: 4816604529202413391, guid: 380aa79f6b958e74fbdb080fa8b1f2a4, type: 3}

@@ -16,21 +16,19 @@ public class PlayerAimController : NetworkBehaviour
 
     private float _angle;
 
-    public override void Spawned()
+    public void Init(NetworkObject newGun)
     {
-        if (HasStateAuthority)
-        {
-            _gun = Runner.Spawn(_gunPrefab.gameObject, transform.position + (Vector3)_gunSpawnOffset, transform.rotation, Object.InputAuthority);
-            _gun.transform.parent = transform;
-            _gunScript = _gun.GetComponent<GunBase>();
-            _gunScript.Init();
-        }
+        _gun = newGun;
+        
+        _gunScript = _gun.GetComponent<GunBase>();
+        _gunScript.Init();
     }
 
     public override void FixedUpdateNetwork()
     {
         if (Runner.TryGetInputForPlayer<NetworkInputData>(Object.InputAuthority, out var data))
         {
+            _gun.transform.position = (Vector2)transform.position + _gunSpawnOffset;
             data.aimDirection.Normalize();
 
             if(data.aimDirection == Vector2.zero) { return; }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameWaveState : GameStateBase
@@ -24,6 +22,8 @@ public class GameWaveState : GameStateBase
         {
             _gameStateManager.GameManagerStateMachine.ChangeState(_gameStateManager.EndState);
         }
+
+        _gameStateManager.ChangeCurrentStateId(2);
     }
 
     public override void ExitState()

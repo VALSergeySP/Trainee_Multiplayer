@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class GameStateManager : NetworkBehaviour
 {
+    private NetworkStateManager _networkStateManager;
+
     [SerializeField] private WaveSO[] _waves;
     [SerializeField] private float _waitTime = 30f;
     public float WaitTime { get => _waitTime; }
@@ -19,14 +21,40 @@ public class GameStateManager : NetworkBehaviour
     public GameWaitState WaitState { get; private set; }
     public GameEndState EndState { get; private set; }
 
-    public void StartGameButton()
-    {
-        GameManagerStateMachine.ChangeState(WaveState);
-    }
-
     private void TestFunction() // Test
     {
         IsLoading = false;
+    }
+
+    public void ChangeCurrentStateId(int id)
+    {
+        if (Runner.IsServer && _networkStateManager != null)
+        {
+            _networkStateManager.ChangeGameState(id);
+        }
+    }
+
+    public void ChangeStateById(int id)
+    {
+        if(Runner.IsServer) { return; }
+        switch(id)
+        {
+            case 0:
+                GameManagerStateMachine.ChangeState(LoadingState);
+                break;
+            case 1:
+                GameManagerStateMachine.ChangeState(StartState);
+                break;
+            case 2:
+                GameManagerStateMachine.ChangeState(WaveState);
+                break;
+            case 3:
+                GameManagerStateMachine.ChangeState(WaitState);
+                break;
+            case 4:
+                GameManagerStateMachine.ChangeState(EndState);
+                break;
+        }
     }
 
     private void Awake()
@@ -34,6 +62,7 @@ public class GameStateManager : NetworkBehaviour
         IsLoading = true;
         _currentWave = 0;
         GameManagerStateMachine = new GameStateMachine();
+        _networkStateManager = GetComponent<NetworkStateManager>();
 
         LoadingState = new GameLoadingState(this, GameManagerStateMachine);
         StartState = new GameStartState(this, GameManagerStateMachine);

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemiesSpawner : NetworkBehaviour
 {
+
     [SerializeField] private GameObject _spawnerPrefab;
     [SerializeField] private int _spawnersOnMap = 5;
     [SerializeField] private Vector2 _mapSizes;
@@ -35,13 +36,36 @@ public class EnemiesSpawner : NetworkBehaviour
 
     public void SpawnNewEnemy(Enemy enemy)
     {
-        int spawnerNum = Random.Range(0, _spawnersTransfroms.Count);
+        if (Runner.IsServer)
+        {
+            int spawnerNum = Random.Range(0, _spawnersTransfroms.Count);
 
-        NetworkObject obj = Runner.Spawn(enemy.gameObject, _spawnersTransfroms[spawnerNum].transform.position, Quaternion.identity, Object.InputAuthority);
-        
-        obj.transform.parent = transform;
+            NetworkObject obj = Runner.Spawn(enemy.gameObject, _spawnersTransfroms[spawnerNum].transform.position, Quaternion.identity, Object.InputAuthority);
+
+            obj.transform.parent = transform;
+        }
     }
 
+    public void SpawnBulletInNetwork(BulletProjectile obj, Vector2 pos, float angle, float despawnTime)
+    {
+        if (Runner.IsServer)
+        {
+            Runner.Spawn(obj.gameObject, pos, Quaternion.identity, Object.InputAuthority, (runner, o) =>
+            {
+                o.GetComponent<BulletProjectile>().Init(angle, despawnTime);
+            });
+        }
+    }
+    public void SpawnMelleeInNetwork(EnemyMeleeProjectile obj, Vector2 pos, float despawnTime)
+    {
+        if (Runner.IsServer)
+        {
+            Runner.Spawn(obj.gameObject, pos, Quaternion.identity, Object.InputAuthority, (runner, o) =>
+            {
+                o.GetComponent<EnemyMeleeProjectile>().Init(despawnTime);
+            });
+        }
+    }
 
     private Vector2 GetRandomSpawnPosition()
     {

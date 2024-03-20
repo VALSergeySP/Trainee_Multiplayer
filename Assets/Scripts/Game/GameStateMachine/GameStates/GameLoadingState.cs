@@ -13,8 +13,6 @@ public class GameLoadingState : GameStateBase
         base.EnterState();
 
         UIManager.Instance.LoadingCanvas.gameObject.SetActive(true);
-
-        
     }
 
     public override void ExitState()

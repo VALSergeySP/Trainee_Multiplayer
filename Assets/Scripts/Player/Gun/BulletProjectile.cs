@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class BulletProjectile : NetworkBehaviour
 {
+    [SerializeField] private bool _canDamagePlayer = false;
     [SerializeField] private float _startRotation = -90f;
 
-    [SerializeField] private float _bulletDamage;
-    public float Damage { get => _bulletDamage; }
+    [SerializeField] private int _bulletDamage;
+    public int Damage { get => _bulletDamage; }
     [SerializeField] private float _bulletSpeed = 5f;
     public float BulletSpeed { get => _bulletSpeed; }
-    [SerializeField] private float _destroyTime = 5f;
 
     private Vector2 _movementDirection;
     private float _angle;
@@ -37,7 +37,13 @@ public class BulletProjectile : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Enemy"))
+        if(collision.CompareTag("Enemy") && !_canDamagePlayer)
+        {
+            collision.GetComponent<IDamagable>().Damage(_bulletDamage);
+            Runner.Despawn(Object);
+        }
+
+        if(collision.CompareTag("Player") && _canDamagePlayer)
         {
             collision.GetComponent<IDamagable>().Damage(_bulletDamage);
             Runner.Despawn(Object);

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameStateMachine : StateMachine
 {
-
     public override void ChangeState(State newState)
     {
         base.ChangeState(newState);

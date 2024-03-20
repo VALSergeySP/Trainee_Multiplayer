@@ -6,6 +6,12 @@ public class PlayerController : NetworkBehaviour
     private Rigidbody2D _rb;
     [SerializeField] private float _movementSpeed = 5f;
 
+    public void Init(Sprite sprite)
+    {
+        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        spriteRenderer.sprite = sprite;
+    }
+
     public override void Spawned()
     {
         _rb = GetComponent<Rigidbody2D>();

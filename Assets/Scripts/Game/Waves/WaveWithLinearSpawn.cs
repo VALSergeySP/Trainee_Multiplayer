@@ -12,7 +12,6 @@ public class WaveWithLinearSpawn : WaveSO
     public override void Init(GameStateManager gameManager)
     {
         base.Init(gameManager);
-        Debug.Log("Linear wave!");
 
         float time;
 
