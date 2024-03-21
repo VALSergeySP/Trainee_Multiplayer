@@ -17,4 +17,4 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 5799742401934248376, guid: 5114c82fe1bfb59459da3460870b1f67, type: 3}
   _attackDistance: 10
   _bulletsCount: 1
-  _attackDelay: 0.3
+  _attackDelay: 0.2

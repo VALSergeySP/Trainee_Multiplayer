@@ -25,7 +25,7 @@ public class EnemyMeleeProjectile : NetworkBehaviour
         if (collision.CompareTag("Player"))
         {
             collision.GetComponent<IDamagable>().Damage(_bulletDamage);
-            Runner.Despawn(Object);
+            GetComponent<Collider2D>().enabled = false;
         }
     }
 }

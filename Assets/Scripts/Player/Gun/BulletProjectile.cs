@@ -39,7 +39,8 @@ public class BulletProjectile : NetworkBehaviour
     {
         if(collision.CompareTag("Enemy") && !_canDamagePlayer)
         {
-            collision.GetComponent<IDamagable>().Damage(_bulletDamage);
+            int playerId = Object.InputAuthority.PlayerId;
+            collision.GetComponent<IDamagable>().Damage(_bulletDamage, playerId);
             Runner.Despawn(Object);
         }
 

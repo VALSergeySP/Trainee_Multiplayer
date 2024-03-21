@@ -3,20 +3,35 @@ using UnityEngine;
 
 public class PlayerController : NetworkBehaviour
 {
+    private Animator _animator;
+    private int _velocityId = Animator.StringToHash("velocity");
+    private int _isDeadId = Animator.StringToHash("Dead");
+
+
+    private string SPECTATOR_TAG = "Spectator";
     private Rigidbody2D _rb;
     [SerializeField] private float _movementSpeed = 5f;
 
-    public void Init(Sprite sprite)
+    private void OnPlayerDeath()
     {
-        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        spriteRenderer.sprite = sprite;
+        _animator.SetBool(_isDeadId, true);
+        GetComponent<Collider2D>().enabled = false;
+        gameObject.tag = SPECTATOR_TAG;
+    }
+
+    private void OnDisable()
+    {
+        GetComponent<PlayerHealthController>().OnPlayerDeathEvent -= OnPlayerDeath;
     }
 
     public override void Spawned()
     {
         _rb = GetComponent<Rigidbody2D>();
-        
-        if(Object.HasInputAuthority)
+        _animator = GetComponent<Animator>();
+
+        GetComponent<PlayerHealthController>().OnPlayerDeathEvent += OnPlayerDeath;
+
+        if (Object.HasInputAuthority)
         {
             Debug.Log("Local!");
         } else
@@ -35,6 +50,7 @@ public class PlayerController : NetworkBehaviour
         { 
             data.moveDirection.Normalize();
             _rb.velocity = _movementSpeed * data.moveDirection;
+            _animator.SetFloat(_velocityId, _rb.velocity.magnitude);
         }
     }
 }

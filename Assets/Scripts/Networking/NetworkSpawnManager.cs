@@ -4,11 +4,13 @@ using Fusion.Sockets;
 using System.Collections.Generic;
 using System;
 using UnityEngine.InputSystem;
+using static Unity.Collections.Unicode;
 
 public class NetworkSpawnManager : MonoBehaviour, INetworkRunnerCallbacks
 {
     UISessionsListHandler _sessionsListHandler;
 
+    [SerializeField] private NetworkPrefabRef _playerUIInput;
     [SerializeField] private NetworkPrefabRef _playerPrefab;
     private PlayerInput _playerInput;
     private List<PlayerRef> _players = new List<PlayerRef>();
@@ -25,6 +27,11 @@ public class NetworkSpawnManager : MonoBehaviour, INetworkRunnerCallbacks
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         _players.Add(player);
+
+        if (runner.IsServer)
+        {
+            runner.Spawn(_playerUIInput, Vector3.zero, Quaternion.identity, player);
+        }
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -68,10 +75,7 @@ public class NetworkSpawnManager : MonoBehaviour, INetworkRunnerCallbacks
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
-    public void OnSceneLoadDone(NetworkRunner runner)
-    {
-        
-    }
+    public void OnSceneLoadDone(NetworkRunner runner) { }
     public void OnSceneLoadStart(NetworkRunner runner) { }
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }

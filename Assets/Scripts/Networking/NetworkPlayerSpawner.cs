@@ -2,15 +2,17 @@ using Fusion;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static Unity.Collections.Unicode;
+using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
 
 public class NetworkPlayerSpawner : NetworkBehaviour
 {
     private int _variantNum = 0;
+    private int[] _playersVariantsNum = new int[2];
     [SerializeField] private Button _startButton; 
-
-    [SerializeField] private NetworkPrefabRef _playerPrefab;
+    
+    [SerializeField] private NetworkPrefabRef[] _playerPrefabs;
     [SerializeField] private NetworkObject[] _playerGunPrefabs;
-    [SerializeField] private Sprite[] _playerSprites;
     private List<NetworkObject> _gunsList = new();
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
@@ -20,11 +22,30 @@ public class NetworkPlayerSpawner : NetworkBehaviour
         {
             _startButton.gameObject.SetActive(false);
         }
+
+        for (int i = 0; i < _playersVariantsNum.Length; i++)
+        {
+            _playersVariantsNum[i] = 0;
+        }
     }
 
     public void OnVariant(int num)
     {
         _variantNum = num;
+        NetworkUIInput[] inputs = FindObjectsOfType<NetworkUIInput>();
+
+        foreach (var input in inputs)
+        {
+            input.OnVariant(num);
+        }
+    }
+
+    public void SetVariant(int num, int player)
+    {
+        if (num < _playerPrefabs.Length)
+        {
+            _playersVariantsNum[player] = num;
+        }
     }
 
     public void OnStartButton()
@@ -40,6 +61,7 @@ public class NetworkPlayerSpawner : NetworkBehaviour
         if (Runner.IsServer)
         {
             NetworkSpawnManager networkSpawnManager = FindObjectOfType<NetworkSpawnManager>();
+            NetworkPlayersDataCollector dataCollector = FindObjectOfType<NetworkPlayersDataCollector>(); 
 
             for (int i = 0; i < _playerGunPrefabs.Length; i++)
             {
@@ -56,19 +78,15 @@ public class NetworkPlayerSpawner : NetworkBehaviour
                 // Create a unique position for the player
                 Vector3 spawnPosition = new Vector3((player.RawEncoded % Runner.Config.Simulation.PlayerCount) * 3, 1, 0);
 
-                NetworkObject networkPlayerObject = Runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
+                NetworkObject networkPlayerObject = Runner.Spawn(_playerPrefabs[_playersVariantsNum[player.PlayerId - 1]], spawnPosition, Quaternion.identity, player);
                 NetworkObject newPlayerGunObject = Runner.Spawn(gun, spawnPosition, Quaternion.identity, player);
                 networkPlayerObject.GetComponent<PlayerAimController>().Init(newPlayerGunObject);
-
-                if (_playerSprites.Length > _variantNum)
-                {
-                    networkPlayerObject.GetComponent<PlayerController>().Init(_playerSprites[_variantNum]);
-                }
-
                 networkPlayerObject.transform.parent = networkPlayerObject.transform;
 
                 // Keep track of the player avatars for easy access
                 _spawnedCharacters.Add(player, networkPlayerObject);
+
+                dataCollector.SetPlayerVariant(_playersVariantsNum[player.PlayerId - 1], player.PlayerId);
             }
         }
     }

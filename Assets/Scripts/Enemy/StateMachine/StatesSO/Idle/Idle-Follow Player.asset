@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac53e8d4c6c018940b3d3da0d08d4029, type: 3}
   m_Name: Idle-Follow Player
   m_EditorClassIdentifier: 
-  _enemyMovementSpeed: 2
+  _enemyMovementSpeed: 3

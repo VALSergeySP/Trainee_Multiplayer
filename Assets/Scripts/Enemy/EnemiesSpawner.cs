@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemiesSpawner : NetworkBehaviour
 {
-
+    [SerializeField] private NetworkPlayersDataCollector _playersDataCollector;
     [SerializeField] private GameObject _spawnerPrefab;
     [SerializeField] private int _spawnersOnMap = 5;
     [SerializeField] private Vector2 _mapSizes;
@@ -20,6 +20,23 @@ public class EnemiesSpawner : NetworkBehaviour
         } else
         {
             Destroy(gameObject);
+        }
+    }
+
+
+    public void RecieveDamageFromPlayer(int amount, int id)
+    {
+        if (Runner.IsServer)
+        {
+            _playersDataCollector.AddDamageToPlayer(amount, id);
+        }
+    }
+
+    public void KilledByPlayer(int id)
+    {
+        if (Runner.IsServer)
+        {
+            _playersDataCollector.AddKillToPlayer(id);
         }
     }
 
@@ -64,6 +81,16 @@ public class EnemiesSpawner : NetworkBehaviour
             {
                 o.GetComponent<EnemyMeleeProjectile>().Init(despawnTime);
             });
+        }
+    }
+
+    public void DeleteAllEnemies()
+    {
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+
+        foreach (var enemy in enemies)
+        {
+            Runner.Despawn(enemy.GetComponent<NetworkObject>());
         }
     }
 

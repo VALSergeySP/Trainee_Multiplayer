@@ -95,6 +95,8 @@ GameObject:
   - component: {fileID: 3217431899116679773}
   - component: {fileID: 1296205258232941996}
   - component: {fileID: 7737117557581217363}
+  - component: {fileID: -5453787195723545356}
+  - component: {fileID: 631713706796565426}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -245,7 +247,9 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 8919750357581922077}
   - {fileID: 3217431899116679773}
+  - {fileID: -5453787195723545356}
 --- !u!70 &7737117557581217363
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -281,3 +285,42 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 1}
   m_Direction: 0
+--- !u!114 &-5453787195723545356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8055648487449080974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 631713706796565426}
+  TotalWords: 1
+  ApplyTiming: 2
+  SyncSettings: 79
+  StateHashes: 0000000020e23b685928a8ce1ae6174d48bc6864a1609f62d8aa0cc4
+  TriggerHashes: 00000000a1609f62
+--- !u!95 &631713706796565426
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8055648487449080974}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f2855d618fc8d9c499189d3f39b9cbbc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

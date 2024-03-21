@@ -25,9 +25,22 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Canvas _endGameCanvas;
     public Canvas EndGameCanvas { get => _endGameCanvas; }
 
+    private UITimer _timer;
+    public UITimer Timer { get => _timer; }
+
+    private UISkinChooseMenu _skinChooseMenu;
+    public UISkinChooseMenu SkinMenu {get =>_skinChooseMenu; }
+
+    private UIKillsCountManager _killsCountMenu;
+    public UIKillsCountManager KillsCountManager { get => _killsCountMenu; }
+
     void Awake()
     {
         if(Instance == null) { Instance = this; }
         else { Destroy(this); }
+
+        _timer = GetComponent<UITimer>();
+        _skinChooseMenu = GetComponent<UISkinChooseMenu>();
+        _killsCountMenu = GetComponent<UIKillsCountManager>();
     }
 }

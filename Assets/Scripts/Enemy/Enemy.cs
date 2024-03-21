@@ -1,7 +1,14 @@
+using Fusion;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable
+public class Enemy : NetworkBehaviour, IDamagable, IEnemyMovable
 {
+    private Animator _animator;
+    private int _hitIndex = Animator.StringToHash("Hit");
+    private int _deadIndex = Animator.StringToHash("Dead");
+
+
     [field: SerializeField] public int MaxHealth { get; set; } = 100;
     public int CurrentHealth { get; set; }
     public Rigidbody2D RB { get; set; }
@@ -34,6 +41,7 @@ public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable
 
     private void Start()
     {
+        _animator = GetComponent<Animator>();
         RB = GetComponent<Rigidbody2D>();
         CurrentHealth = MaxHealth;
 
@@ -43,7 +51,7 @@ public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable
         StateMachineInstance.Initialize(IdleState);
     }
 
-    private void Update()
+    public override void FixedUpdateNetwork()
     {
         StateMachineInstance.CurrentState.FrameUpdate();
     }
@@ -57,15 +65,13 @@ public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable
     {
         if (IsFacingRight && velocity.x < 0f)
         {
-            Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-            IsFacingRight = !IsFacingRight;
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180f, transform.rotation.eulerAngles.z);
+            IsFacingRight = false;
         } 
         else if (!IsFacingRight && velocity.x > 0f)
         {
-            Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-            IsFacingRight = !IsFacingRight;
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+            IsFacingRight = true;
         }
     }
     public void AnimationTriggerEvent(AnimationTriggerType type)
@@ -82,19 +88,40 @@ public class Enemy : MonoBehaviour, IDamagable, IEnemyMovable
         EnemyDamaged,
         EnemyKilled
     }
-    public void Damage(int damageAmount)
+
+    public void Damage(int damageAmount, int damageCauseByPlayerId)
     {
         CurrentHealth -= damageAmount;
 
-        if(CurrentHealth <= 0)
+        _animator.SetTrigger(_hitIndex);
+        
+        if(damageCauseByPlayerId > 0)
+        {
+            EnemiesSpawner.Instance.RecieveDamageFromPlayer(damageAmount, damageCauseByPlayerId);
+        }
+
+        if (CurrentHealth <= 0)
         {
             Die();
+            if (damageCauseByPlayerId > 0)
+            {
+                EnemiesSpawner.Instance.KilledByPlayer(damageCauseByPlayerId);
+            }
         }
     }
 
     public void Die()
     {
-        Destroy(gameObject);
+        RB.simulated = false;
+        GetComponent<Collider2D>().enabled = false;
+        _animator.SetBool(_deadIndex, true);
+
+        DespawnEnemy();
+    }
+
+    private void DespawnEnemy()
+    {
+        Runner.Despawn(Object);
     }
 
     public void MoveEnemy(Vector2 velocity)

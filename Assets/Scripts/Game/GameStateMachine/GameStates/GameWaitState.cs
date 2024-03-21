@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameWaitState : GameStateBase
 {
+    private string _stateName = "Waiting...";
     private float _timer;
 
     public GameWaitState(GameStateManager gameStateManager, StateMachine stateMachine) : base(gameStateManager, stateMachine)
@@ -20,9 +21,12 @@ public class GameWaitState : GameStateBase
         if(_gameStateManager.CheckIsGameEnd())
         {
             _gameStateManager.GameManagerStateMachine.ChangeState(_gameStateManager.EndState);
+        } else
+        {
+            UIManager.Instance.Timer.StartTimerWithValue(_gameStateManager.WaitTime);
+            UIManager.Instance.Timer.SetStateName(_stateName);
+            _gameStateManager.SendRpcStateId(3);
         }
-
-        _gameStateManager.SendRpcStateId(3);
     }
 
     public override void ExitState()

@@ -16,6 +16,17 @@ public class GameEndState : GameStateBase
         Debug.Log("Game ended!");
         base.EnterState();
 
+        NetworkUIInput[] inputs = Object.FindObjectsOfType<NetworkUIInput>();
+
+        foreach (var input in inputs)
+        {
+            input.OnEndGame();
+        }
+
+        UIManager.Instance.EndGameCanvas.gameObject.SetActive(true);
+        UIManager.Instance.PlayerControllCanvas.gameObject.SetActive(false);
+        UIManager.Instance.GameUICanvas.gameObject.SetActive(false);
+        UIManager.Instance.GameStartCanvas.gameObject.SetActive(false);
         _gameStateManager.SendRpcStateId(_stateId);
     }
 

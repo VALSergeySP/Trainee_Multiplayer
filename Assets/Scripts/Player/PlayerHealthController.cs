@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlayerHealthController : NetworkBehaviour, IDamagable
 {
+    public delegate void OnPlayerDeath();
+    public event OnPlayerDeath OnPlayerDeathEvent;
+
     private ChangeDetector _changeDetector;
     private UIPlayerHealthManager _healthUI;
 
@@ -41,7 +44,7 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
         }
     }
 
-    public void Damage(int damageAmount)
+    public void Damage(int damageAmount, int enemy)
     {
         CurrentHealth -= damageAmount;
         Debug.Log($"Player was damaged! HP: {CurrentHealth}, Damage: {damageAmount}");
@@ -59,7 +62,6 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
 
     public void Die()
     {
-        // Death logic
-        Debug.Log("Player is dead(");
+        OnPlayerDeathEvent?.Invoke();
     }
 }

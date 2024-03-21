@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 4019701039578573110}
   - component: {fileID: 6150722598719799135}
   - component: {fileID: 1313896680338349509}
+  - component: {fileID: -7826605018960367148}
+  - component: {fileID: 6183348385520027569}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Enemy
@@ -165,7 +167,9 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 6959643606412127813}
   - {fileID: 4019701039578573110}
+  - {fileID: 6183348385520027569}
 --- !u!70 &1313896680338349509
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -201,6 +205,45 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 1}
   m_Direction: 0
+--- !u!95 &-7826605018960367148
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474451102987156343}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 12cfc8b2360c2fc4499d4f6f6607671a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6183348385520027569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474451102987156343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: -7826605018960367148}
+  TotalWords: 1
+  ApplyTiming: 2
+  SyncSettings: 79
+  StateHashes: 0000000020e23b685928a8ce1ae6174d48bc6864a1609f62d8aa0cc4
+  TriggerHashes: 00000000a1609f62
 --- !u!1 &9081014919276832172
 GameObject:
   m_ObjectHideFlags: 0

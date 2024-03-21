@@ -25,6 +25,10 @@ public class UIMainMenuManager : MonoBehaviour
         Invoke(nameof(StartLobby), 1f);
     }
 
+    public void OnExitButton()
+    {
+        Application.Quit();
+    }
 
     private void StartLobby()
     {

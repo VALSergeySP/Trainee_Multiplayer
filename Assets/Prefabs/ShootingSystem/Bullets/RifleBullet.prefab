@@ -100,10 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b66f47579d2ee48924ce74f01ae1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canDamagePlayer: 0
   _startRotation: -90
-  _bulletDamage: 20
-  _bulletSpeed: 9
-  _destroyTime: 5
+  _bulletDamage: 30
+  _bulletSpeed: 10
 --- !u!114 &2830812996072028687
 MonoBehaviour:
   m_ObjectHideFlags: 0

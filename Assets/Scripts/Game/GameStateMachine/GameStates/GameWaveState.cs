@@ -27,6 +27,16 @@ public class GameWaveState : GameStateBase
             }
         }
 
+        if (_currentWave != null)
+        {
+            UIManager.Instance.Timer.StartTimerWithValue(_currentWave.WaveDurationTime);
+            UIManager.Instance.Timer.SetStateName(_currentWave.WaveName);
+        } else
+        {
+            UIManager.Instance.Timer.ResetTimer();
+            UIManager.Instance.Timer.SetStateName("Wave...");
+        }
+
         _gameStateManager.SendRpcStateId(2);
     }
 

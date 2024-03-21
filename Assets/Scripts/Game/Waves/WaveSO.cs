@@ -14,9 +14,12 @@ public class WaveSO : ScriptableObject
     }
 
     // Add pickups later
-
+    [SerializeField] protected string _waveName = "Base";
+    public string WaveName { get => _waveName; }
     [SerializeField] protected float _waveDurationTime = 1f;
+    public float WaveDurationTime { get => _waveDurationTime; }
     [SerializeField] protected EnemyToSpawn[] _enemies;
+
     private float _timer;
     protected GameStateManager _gameManager;
 

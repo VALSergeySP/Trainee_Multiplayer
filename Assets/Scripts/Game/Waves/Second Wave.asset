@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63e155f859f03cc4889d64bd115f61f0, type: 3}
   m_Name: Second Wave
   m_EditorClassIdentifier: 
+  _waveName: Second Wave
   _waveDurationTime: 180
   _enemies:
   - enemy: {fileID: 8919750357581922077, guid: 57c5845cdf73581409f69158743da11f, type: 3}
-    count: 20
+    count: 40
   - enemy: {fileID: 6959643606412127813, guid: 068e4358c05835948a81302001826bff, type: 3}
-    count: 10
+    count: 20

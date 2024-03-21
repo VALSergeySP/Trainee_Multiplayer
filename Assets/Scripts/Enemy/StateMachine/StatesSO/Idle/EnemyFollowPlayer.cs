@@ -32,6 +32,12 @@ public class EnemyFollowPlayer : EnemyIdleSOBase
     {
         base.DoFrameUpdateLogic();
 
+        
+        if(_playersTransform == null || !_playerTransform.CompareTag("Player"))
+        {
+            _playerTransform = GetPlayerPosition();
+        }
+
         _movementDirection = (_playerTransform.position - _enemy.transform.position).normalized;
 
         _enemy.MoveEnemy(_movementDirection * _enemyMovementSpeed);
@@ -58,7 +64,7 @@ public class EnemyFollowPlayer : EnemyIdleSOBase
 
         int num = Random.Range(0, _playersTransform.Count);
 
-        if(_playersTransform[num] == null)
+        if(_playersTransform[num] == null || !_playersTransform[num].gameObject.CompareTag("Player"))
         {
             _playersTransform.Remove(_playersTransform[num]);
             return _playersTransform[0];

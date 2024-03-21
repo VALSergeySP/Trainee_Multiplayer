@@ -139,6 +139,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConnectCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6635461005401221020, guid: 1e1d1ec293104b149ade496050a78771, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993063233488615090, guid: 1e1d1ec293104b149ade496050a78771, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993063233488615090, guid: 1e1d1ec293104b149ade496050a78771, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993063233488615090, guid: 1e1d1ec293104b149ade496050a78771, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993063233488615090, guid: 1e1d1ec293104b149ade496050a78771, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993063233488615090, guid: 1e1d1ec293104b149ade496050a78771, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993063233488615090, guid: 1e1d1ec293104b149ade496050a78771, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 14.800003
+      objectReference: {fileID: 0}
     - target: {fileID: 7762511476490900289, guid: 1e1d1ec293104b149ade496050a78771, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -286,6 +314,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1260182632733171259, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
+      propertyPath: m_Spacing
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1346509512607063538, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -446,6 +478,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4395479435271054615, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395479435271054615, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395479435271054615, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 70564225}
+    - target: {fileID: 4395479435271054615, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395479435271054615, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnExitButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395479435271054615, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIMainMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395479435271054615, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4615593859316045879, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
       propertyPath: m_Name
       value: MainMenuCanvas
@@ -501,6 +561,10 @@ PrefabInstance:
     - target: {fileID: 5447283024301438099, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265768084085290085, guid: ec41fa73be6a1d84c871e6889823b867, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -689,7 +753,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.21568629, g: 0.5803922, b: 0.43137258, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

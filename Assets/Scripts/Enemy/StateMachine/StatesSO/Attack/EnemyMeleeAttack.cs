@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Mellee Attack", menuName = "Enemy/Attack/Mellee Attack")]
 public class EnemyMeleeAttack : EnemyAttackSOBase
 {
+    [SerializeField] private float _despawnTime = 0.3f;
     [SerializeField] private float _timeBetweenAttacks = 1f;
     [SerializeField] private EnemyMeleeProjectile _attackPrefab;
 
@@ -42,7 +43,7 @@ public class EnemyMeleeAttack : EnemyAttackSOBase
 
     private void Attack()
     {
-        EnemiesSpawner.Instance.SpawnMelleeInNetwork(_attackPrefab, _transform.position, 0.1f);
+        EnemiesSpawner.Instance.SpawnMelleeInNetwork(_attackPrefab, _transform.position, _despawnTime);
     }
 
     public override void DoPhisicsUpdateLogic()
