@@ -8,8 +8,10 @@ public class UIMainMenuManager : MonoBehaviour
     [SerializeField] private GameObject _mainCanvas;
     [SerializeField] private GameObject _createCanvas;
     [SerializeField] private GameObject _joinCanvas;
+    [SerializeField] private GameObject _loadingCanvas;
 
     [SerializeField] private TMP_InputField _sessionNameInput;
+    [SerializeField] private TMP_Text _errorTextMessage;
 
     [SerializeField] private string _sceneName = "GameScene";
 
@@ -17,12 +19,17 @@ public class UIMainMenuManager : MonoBehaviour
 
     private void Start()
     {
-        _mainCanvas.SetActive(true);
+        _loadingCanvas.SetActive(true);
+        _mainCanvas.SetActive(false);
         _createCanvas.SetActive(false);
         _joinCanvas.SetActive(false);
 
         _networkManager = FindAnyObjectByType<NetworkConnectionManager>();
-        Invoke(nameof(StartLobby), 1f);
+        if (_networkManager != null)
+        {
+            Invoke(nameof(StartLobby), 0.1f);
+            Invoke(nameof(OnLoading), 3f);
+        }
     }
 
     public void OnExitButton()
@@ -35,9 +42,22 @@ public class UIMainMenuManager : MonoBehaviour
         _networkManager.OnJoinLobby();
     }
 
+    private void OnLoading()
+    {
+        _loadingCanvas.SetActive(false);
+        _mainCanvas.SetActive(true);
+    }
+
     public void OnCreateNewSessionButton()
     {
-        _networkManager.CreateGame(_sessionNameInput.text, _sceneName);
+        if (_sessionNameInput.text.Length > 0)
+        {
+            _loadingCanvas.SetActive(true);
+            _networkManager.CreateGame(_sessionNameInput.text, _sceneName);
+        } else
+        {
+            _errorTextMessage.text = "Enter name!";
+        }
     }
 
 

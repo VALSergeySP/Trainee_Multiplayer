@@ -17,3 +17,6 @@ MonoBehaviour:
   _enemies:
   - enemy: {fileID: 8919750357581922077, guid: 57c5845cdf73581409f69158743da11f, type: 3}
     count: 20
+  _items:
+  - item: {fileID: 5957379215477769917, guid: 774a69a83ab71a14a89c9ed8ff06202f, type: 3}
+    count: 10

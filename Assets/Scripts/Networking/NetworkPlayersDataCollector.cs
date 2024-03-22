@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class NetworkPlayersDataCollector : NetworkBehaviour
 {
+    private bool _connected = false;
+
     private NetworkUIInput[] _rpcSenders;
 
     private int[] _playersKills = { 0, 0 };
@@ -10,12 +12,19 @@ public class NetworkPlayersDataCollector : NetworkBehaviour
     private int[] _playersVariants = { 0, 0 };
     private bool[] _playersStatus = { true, true };
 
+    private void FindRpcSenders()
+    {
+        _rpcSenders = FindObjectsOfType<NetworkUIInput>();
+    }
+
     public void AddKillToPlayer(int player)
     {
-        Debug.Log($"Player {player} killed enemy!");
         _playersKills[player - 1]++;
 
-        _rpcSenders = FindObjectsOfType<NetworkUIInput>();
+        if(!_connected)
+        {
+            FindRpcSenders();
+        }
 
         foreach (var input in _rpcSenders)
         {
@@ -25,10 +34,8 @@ public class NetworkPlayersDataCollector : NetworkBehaviour
 
     public void AddDamageToPlayer(int damage, int player)
     {
-        Debug.Log($"Player {player} dealt {damage} damage!");
         _playersDamage[player - 1] += damage;
     }
-
 
     public void SetPlayerVariant(int variant, int player) 
     {
@@ -44,7 +51,8 @@ public class NetworkPlayersDataCollector : NetworkBehaviour
         {
             if (!players[i].gameObject.CompareTag("Player"))
             {
-                _playersStatus[i] = false;
+                int playerId = players[i].Object.InputAuthority.PlayerId;
+                _playersStatus[playerId - 1] = false;
             }
         }
     }

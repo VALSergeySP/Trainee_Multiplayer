@@ -21,3 +21,10 @@ MonoBehaviour:
     count: 40
   - enemy: {fileID: 6975375421754385642, guid: 51c199a240053ea4abd1e37452563754, type: 3}
     count: 20
+  _items:
+  - item: {fileID: 5957379215477769917, guid: 774a69a83ab71a14a89c9ed8ff06202f, type: 3}
+    count: 50
+  - item: {fileID: 378918318513604625, guid: ff680843991fc4443957be41547d7a90, type: 3}
+    count: 40
+  - item: {fileID: 4842828717254953564, guid: b898ed82049e27543b2171bd324eddd7, type: 3}
+    count: 30

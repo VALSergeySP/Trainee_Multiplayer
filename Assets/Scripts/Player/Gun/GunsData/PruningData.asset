@@ -15,7 +15,7 @@ MonoBehaviour:
   _name: Pruning
   _gunSprite: {fileID: -353751291, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
   _bulletPrefab: {fileID: 6308128545261928782, guid: 1b2f943187f24514c8005a7bb0af744a, type: 3}
-  _attackDistance: 3
+  _attackDistance: 4
   _bulletsCount: 1
   _attackDelay: 0.5
-  _maxBullets: 5
+  _maxBullets: 20

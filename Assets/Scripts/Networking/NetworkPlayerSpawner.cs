@@ -1,6 +1,7 @@
 using Fusion;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Unity.Collections.Unicode;
 using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
@@ -55,6 +56,16 @@ public class NetworkPlayerSpawner : NetworkBehaviour
         gameManager.GameManagerStateMachine.ChangeState(gameManager.WaveState);
     }
 
+    public void OnMainMenuButton()
+    {
+        if (Runner.IsServer)
+        {
+            Runner.Disconnect(Runner.LocalPlayer);
+        }
+        Runner.Shutdown();
+        SceneManager.LoadScene(0);
+    }
+
     private void SpawnPlayers()
     {
         Debug.Log(Runner.ToString());
@@ -70,24 +81,28 @@ public class NetworkPlayerSpawner : NetworkBehaviour
 
             foreach (var player in networkSpawnManager.Players)
             {
-                int num = Random.Range(0, _gunsList.Count);
-
-                NetworkObject gun = _gunsList[num];
-                _gunsList.RemoveAt(num);
-
-                // Create a unique position for the player
-                Vector3 spawnPosition = new Vector3((player.RawEncoded % Runner.Config.Simulation.PlayerCount) * 3, 1, 0);
-
-                NetworkObject networkPlayerObject = Runner.Spawn(_playerPrefabs[_playersVariantsNum[player.PlayerId - 1]], spawnPosition, Quaternion.identity, player);
-                NetworkObject newPlayerGunObject = Runner.Spawn(gun, spawnPosition, Quaternion.identity, player);
-                networkPlayerObject.GetComponent<PlayerAimController>().Init(newPlayerGunObject);
-                networkPlayerObject.transform.parent = networkPlayerObject.transform;
-
-                // Keep track of the player avatars for easy access
-                _spawnedCharacters.Add(player, networkPlayerObject);
-
+                SpawnPlayer(player);
                 dataCollector.SetPlayerVariant(_playersVariantsNum[player.PlayerId - 1], player.PlayerId);
             }
         }
+    }
+
+    private void SpawnPlayer(PlayerRef player)
+    {
+        int num = Random.Range(0, _gunsList.Count);
+
+        NetworkObject gun = _gunsList[num];
+        _gunsList.RemoveAt(num);
+
+        // Create a unique position for the player
+        Vector3 spawnPosition = new Vector3((player.RawEncoded % Runner.Config.Simulation.PlayerCount) * 3, 1, 0);
+
+        NetworkObject networkPlayerObject = Runner.Spawn(_playerPrefabs[_playersVariantsNum[player.PlayerId - 1]], spawnPosition, Quaternion.identity, player);
+        NetworkObject newPlayerGunObject = Runner.Spawn(gun, spawnPosition, Quaternion.identity, player);
+        networkPlayerObject.GetComponent<PlayerAimController>().Init(newPlayerGunObject);
+        networkPlayerObject.transform.parent = networkPlayerObject.transform;
+
+        // Keep track of the player avatars for easy access
+        _spawnedCharacters.Add(player, networkPlayerObject);
     }
 }

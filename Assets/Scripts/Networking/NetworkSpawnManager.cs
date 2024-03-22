@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.InputSystem;
 using static Unity.Collections.Unicode;
+using UnityEngine.SceneManagement;
 
 public class NetworkSpawnManager : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -69,7 +70,10 @@ public class NetworkSpawnManager : MonoBehaviour, INetworkRunnerCallbacks
 
     #region useless
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
+    {
+        SceneManager.LoadScene(0);
+    }
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
@@ -83,7 +87,9 @@ public class NetworkSpawnManager : MonoBehaviour, INetworkRunnerCallbacks
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
     public void OnConnectedToServer(NetworkRunner runner) { }
 
-    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
+    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) {
+        runner.Shutdown();
+    }
     #endregion
 
     public void InitializePlayer(NetworkRunner runner)

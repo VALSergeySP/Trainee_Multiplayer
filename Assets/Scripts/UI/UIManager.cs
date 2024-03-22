@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -34,6 +32,9 @@ public class UIManager : MonoBehaviour
     private UIKillsCountManager _killsCountMenu;
     public UIKillsCountManager KillsCountManager { get => _killsCountMenu; }
 
+    private UIBulletsCountManager _bulletsCountManager;
+    public UIBulletsCountManager BulletsCountManager { get => _bulletsCountManager; }
+
     void Awake()
     {
         if(Instance == null) { Instance = this; }
@@ -42,5 +43,6 @@ public class UIManager : MonoBehaviour
         _timer = GetComponent<UITimer>();
         _skinChooseMenu = GetComponent<UISkinChooseMenu>();
         _killsCountMenu = GetComponent<UIKillsCountManager>();
+        _bulletsCountManager = GetComponent<UIBulletsCountManager>();
     }
 }

@@ -27,14 +27,24 @@ public class NetworkConnectionManager : NetworkBehaviour, INetworkRunnerCallback
     {
         if (_networkRunner == null)
         {
-            _networkRunner = Instantiate(_runnerPrefab);
-            _networkRunner.name = "Network runner";
-            _networkRunner.ProvideInput = true;
+            InitializeRunner(false);
+        }
+    }
 
-            if (SceneManager.GetActiveScene().name != "MainMenuScene")
-            {
-                var clientTask = StartGame(_networkRunner, GameMode.AutoHostOrClient, "Test", NetAddress.Any(), SceneRef.FromIndex(SceneUtility.GetBuildIndexByScenePath($"scenes/GameScene")), _networkRunner.GetComponent<NetworkSceneManagerDefault>());
-            }
+    private void InitializeRunner(bool connectToLobby)
+    {
+        _networkRunner = Instantiate(_runnerPrefab);
+        _networkRunner.name = "Network runner";
+        _networkRunner.ProvideInput = true;
+
+        if (SceneManager.GetActiveScene().name != "MainMenuScene")
+        {
+            var clientTask = StartGame(_networkRunner, GameMode.AutoHostOrClient, "Test", NetAddress.Any(), SceneRef.FromIndex(SceneUtility.GetBuildIndexByScenePath($"scenes/GameScene")), _networkRunner.GetComponent<NetworkSceneManagerDefault>());
+        }
+
+        if(connectToLobby)
+        {
+            OnJoinLobby();
         }
     }
 
@@ -78,7 +88,13 @@ public class NetworkConnectionManager : NetworkBehaviour, INetworkRunnerCallback
 
     public void OnJoinLobby()
     {
-        var clientTask = JoinLobby();
+        if (_networkRunner != null)
+        {
+            var clientTask = JoinLobby();
+        } else
+        {
+            InitializeRunner(true);
+        }
     }
 
     private async Task JoinLobby()
@@ -105,4 +121,4 @@ public class NetworkConnectionManager : NetworkBehaviour, INetworkRunnerCallback
     {
         var clientTask = StartGame(_networkRunner, GameMode.Client, sessionInfo.Name, NetAddress.Any(), SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex), _networkRunner.GetComponent<NetworkSceneManagerDefault>());
     }
-}
+ }

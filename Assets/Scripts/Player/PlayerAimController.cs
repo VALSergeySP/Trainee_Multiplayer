@@ -1,10 +1,10 @@
 using Fusion;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerAimController : NetworkBehaviour
 {
+    private NetworkUIInput[] _uiManagers;
+
     private bool _isPlayerAlive = true;
 
     private NetworkObject _gun;
@@ -13,7 +13,6 @@ public class PlayerAimController : NetworkBehaviour
     private GunBase _gunScript;
 
     private int _currentBulletsCount;
-    private UIBulletsCountManager _UIbulletsCountManager;
 
     [SerializeField] private Transform _body;
 
@@ -30,8 +29,11 @@ public class PlayerAimController : NetworkBehaviour
         _currentBulletsCount = _gunScript.MaxBullets;
 
         GetComponent<PlayerHealthController>().OnPlayerDeathEvent += OnPlayerDeath;
-        _UIbulletsCountManager = FindObjectOfType<UIBulletsCountManager>();
-        _UIbulletsCountManager.Init(_gunScript.MaxBullets);
+        _uiManagers = FindObjectsOfType<NetworkUIInput>();
+        foreach(var manager in _uiManagers)
+        {
+            manager.InitBullets(_gunScript.MaxBullets, Object.InputAuthority.PlayerId);
+        }
     }
 
     private void OnPlayerDeath()
@@ -90,7 +92,10 @@ public class PlayerAimController : NetworkBehaviour
 
     private void SetBulletsUI()
     {
-        _UIbulletsCountManager.SetBulletsCount(_currentBulletsCount);
+        foreach (var manager in _uiManagers)
+        {
+            manager.SetBullets(_currentBulletsCount, Object.InputAuthority.PlayerId);
+        }
     }
 
     public void ResetBullets()

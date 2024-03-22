@@ -1,8 +1,30 @@
 using Fusion;
-using UnityEngine;
 
 public class NetworkUIInput : NetworkBehaviour
 {
+    private UIManager _uiManager;
+
+    public void InitBullets(int bullets, int playerId)
+    {
+        if (Runner.IsServer)
+        {
+            RPC_RelayPlayerBullets(bullets, playerId, true);
+        }
+    }
+
+    public void SetBullets(int bullets, int playerId)
+    {
+        if (Runner.IsServer)
+        {
+            RPC_RelayPlayerBullets(bullets, playerId, false);
+        }
+    }
+
+    public override void Spawned()
+    {
+        _uiManager = FindObjectOfType<UIManager>();
+    }
+
     public void OnVariant(int num)
     {
         if (Object.HasInputAuthority)
@@ -43,7 +65,7 @@ public class NetworkUIInput : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All, HostMode = RpcHostMode.SourceIsServer)]
     public void RPC_RelayPlayerChangedSkin(int newVariant, PlayerRef messageSource)
     {
-        UIManager.Instance.SkinMenu.SetCurrentVariant(newVariant, messageSource.PlayerId);
+        _uiManager.SkinMenu.SetCurrentVariant(newVariant, messageSource.PlayerId);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All, HostMode = RpcHostMode.SourceIsServer)]
@@ -53,7 +75,25 @@ public class NetworkUIInput : NetworkBehaviour
         {
             if (playerId == Object.InputAuthority.PlayerId)
             {
-                UIManager.Instance.KillsCountManager.SetKillsCount(killsCount);
+                _uiManager.KillsCountManager.SetKillsCount(killsCount);
+            }
+        }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All, HostMode = RpcHostMode.SourceIsServer)]
+    public void RPC_RelayPlayerBullets(int bullets, int playerId, bool init = false)
+    {
+        if (Object.HasInputAuthority)
+        {
+            if (playerId == Object.InputAuthority.PlayerId)
+            {
+                if (init)
+                {
+                    _uiManager.BulletsCountManager.Init(bullets);
+                } else
+                {
+                    _uiManager.BulletsCountManager.SetBulletsCount(bullets);
+                }
             }
         }
     }

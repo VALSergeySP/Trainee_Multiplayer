@@ -4,11 +4,13 @@ using UnityEngine;
 public class BombProjectile : NetworkBehaviour
 {
     private int _projectileDamage;
+    private int _playerPickedItUp;
 
     [Networked] private TickTimer life { get; set; }
 
-    public void Init(int damage, float radius, float despawnTime)
+    public void Init(int damage, float radius, float despawnTime, int playerId)
     {
+        _playerPickedItUp = playerId;
         transform.localScale = transform.localScale * radius;
         _projectileDamage = damage;
         life = TickTimer.CreateFromSeconds(Runner, despawnTime);
@@ -25,7 +27,7 @@ public class BombProjectile : NetworkBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            collision.GetComponent<IDamagable>().Damage(_projectileDamage);
+            collision.GetComponent<IDamagable>().Damage(_projectileDamage, _playerPickedItUp);
             GetComponent<Collider2D>().enabled = false;
         }
     }
