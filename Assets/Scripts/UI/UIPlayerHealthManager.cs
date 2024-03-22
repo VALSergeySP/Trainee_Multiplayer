@@ -8,6 +8,8 @@ public class UIPlayerHealthManager : MonoBehaviour
     private UIPlayerHealthManager() { }
 
     [SerializeField] private Image[] _healthImages;
+    [SerializeField] private Sprite _fullHealth;
+    [SerializeField] private Sprite _emptyHealth;
 
     public void SetHealth(int health, int maxHealth)
     {
@@ -17,11 +19,11 @@ public class UIPlayerHealthManager : MonoBehaviour
         {
             if (i < imgNumToShow)
             {
-                _healthImages[i].enabled = true;
+                _healthImages[i].sprite = _fullHealth;
             }
             else
             {
-                _healthImages[i].enabled = false;
+                _healthImages[i].sprite = _emptyHealth;
             }
         }
     }

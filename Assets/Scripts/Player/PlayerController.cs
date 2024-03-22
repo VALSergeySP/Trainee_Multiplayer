@@ -5,7 +5,6 @@ public class PlayerController : NetworkBehaviour
 {
     private Animator _animator;
     private int _velocityId = Animator.StringToHash("velocity");
-    private int _isDeadId = Animator.StringToHash("Dead");
 
 
     private string SPECTATOR_TAG = "Spectator";
@@ -14,7 +13,6 @@ public class PlayerController : NetworkBehaviour
 
     private void OnPlayerDeath()
     {
-        _animator.SetBool(_isDeadId, true);
         GetComponent<Collider2D>().enabled = false;
         gameObject.tag = SPECTATOR_TAG;
 
@@ -69,10 +67,6 @@ public class PlayerController : NetworkBehaviour
             data.moveDirection.Normalize();
             _rb.velocity = _movementSpeed * data.moveDirection;
             _animator.SetFloat(_velocityId, _rb.velocity.magnitude);
-
-            if (gameObject.CompareTag(SPECTATOR_TAG) && !_animator.GetBool(_isDeadId)) {
-                _animator.SetBool(_isDeadId, true);
-            }// Заменить
         }
     }
 }

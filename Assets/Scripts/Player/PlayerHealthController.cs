@@ -6,6 +6,7 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
     private Animator _animator;
     private int _hitTrigger = Animator.StringToHash("Hit");
     private int _healTrigger = Animator.StringToHash("Heal");
+    private int _deathBool = Animator.StringToHash("Dead");
 
     public delegate void OnPlayerDeath();
     public event OnPlayerDeath OnPlayerDeathEvent;
@@ -52,6 +53,7 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
     public void Damage(int damageAmount, int enemy)
     {
         CurrentHealth -= damageAmount;
+        _animator.SetTrigger(_hitTrigger);
 
         if (Object.HasInputAuthority)
         {
@@ -67,6 +69,7 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
     public void Healing(int healAmount)
     {
         CurrentHealth += healAmount;
+        _animator.SetTrigger(_healTrigger);
 
         if (CurrentHealth > MaxHealth) { CurrentHealth = MaxHealth; }
 
@@ -78,6 +81,7 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
 
     public void Die()
     {
+        _animator.SetBool(_deathBool, true);
         OnPlayerDeathEvent?.Invoke();
     }
 }
