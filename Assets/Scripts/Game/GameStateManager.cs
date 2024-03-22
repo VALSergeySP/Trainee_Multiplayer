@@ -10,6 +10,7 @@ public class GameStateManager : NetworkBehaviour
 
     [SerializeField] private WaveSO[] _waves;
     [SerializeField] private float _waitTime = 30f;
+    [SerializeField] private Vector2 _mapSizes;
     public float WaitTime { get => _waitTime; }
     private int _currentWave;
 
@@ -119,5 +120,22 @@ public class GameStateManager : NetworkBehaviour
     public bool CheckIsGameEnd()
     {
         return _currentWave >= _waves.Length;
+    }
+
+    public void SpawnNewItem(CollectibleItemBase item)
+    {
+        if (Runner.IsServer)
+        {
+            NetworkObject obj = Runner.Spawn(item.gameObject, GetRandomSpawnPosition(), Quaternion.identity, null);
+        }
+    }
+
+
+    private Vector2 GetRandomSpawnPosition()
+    {
+        float x = Random.Range(-_mapSizes.x, _mapSizes.x);
+        float y = Random.Range(-_mapSizes.y, _mapSizes.y);
+
+        return new Vector2(x, y);
     }
 }

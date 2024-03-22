@@ -19,4 +19,6 @@ public class GunSOBase : ScriptableObject
     public int BulletsCount { get => _bulletsCount; }
     [SerializeField] private float _attackDelay;
     public float AttackDelay { get => _attackDelay; }
+    [SerializeField] private int _maxBullets;
+    public int MaxBullets { get => _maxBullets; }
 }

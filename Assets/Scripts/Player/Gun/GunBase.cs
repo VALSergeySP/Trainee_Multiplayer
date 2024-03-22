@@ -8,6 +8,7 @@ public class GunBase : NetworkBehaviour
     [SerializeField] protected GunSOBase _gunData;
 
     public float ShootDelay { get => _gunData.AttackDelay; }
+    public int MaxBullets { get => _gunData.MaxBullets; }
 
     public virtual void Init()
     {

@@ -18,3 +18,4 @@ MonoBehaviour:
   _attackDistance: 5
   _bulletsCount: 5
   _attackDelay: 0.5
+  _maxBullets: 5

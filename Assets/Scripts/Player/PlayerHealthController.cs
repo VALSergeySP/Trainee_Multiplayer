@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class PlayerHealthController : NetworkBehaviour, IDamagable
 {
+    private Animator _animator;
+    private int _hitTrigger = Animator.StringToHash("Hit");
+    private int _healTrigger = Animator.StringToHash("Heal");
+
     public delegate void OnPlayerDeath();
     public event OnPlayerDeath OnPlayerDeathEvent;
 
@@ -18,6 +22,7 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
 
     public override void Spawned()
     {
+        _animator = GetComponent<Animator>();
         _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
         CurrentHealth = MaxHealth;
 
@@ -56,6 +61,18 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
         if (CurrentHealth <= 0)
         {
             Die();
+        }
+    }
+
+    public void Healing(int healAmount)
+    {
+        CurrentHealth += healAmount;
+
+        if (CurrentHealth > MaxHealth) { CurrentHealth = MaxHealth; }
+
+        if (Object.HasInputAuthority)
+        {
+            _healthUI.SetHealth(CurrentHealth, MaxHealth);
         }
     }
 

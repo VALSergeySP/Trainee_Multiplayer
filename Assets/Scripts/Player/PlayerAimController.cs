@@ -12,6 +12,9 @@ public class PlayerAimController : NetworkBehaviour
     [SerializeField] private Vector2 _gunSpawnOffset;
     private GunBase _gunScript;
 
+    private int _currentBulletsCount;
+    private UIBulletsCountManager _UIbulletsCountManager;
+
     [SerializeField] private Transform _body;
 
     [Networked] private TickTimer _shootDelay { get; set; }
@@ -24,8 +27,11 @@ public class PlayerAimController : NetworkBehaviour
         
         _gunScript = _gun.GetComponent<GunBase>();
         _gunScript.Init();
+        _currentBulletsCount = _gunScript.MaxBullets;
 
         GetComponent<PlayerHealthController>().OnPlayerDeathEvent += OnPlayerDeath;
+        _UIbulletsCountManager = FindObjectOfType<UIBulletsCountManager>();
+        _UIbulletsCountManager.Init(_gunScript.MaxBullets);
     }
 
     private void OnPlayerDeath()
@@ -72,9 +78,25 @@ public class PlayerAimController : NetworkBehaviour
 
     private void Shoot()
     {
-        _shootDelay = TickTimer.CreateFromSeconds(Runner, _gunScript.ShootDelay);
+        if (_currentBulletsCount > 0)
+        {
+            _currentBulletsCount--;
+            SetBulletsUI();
+            _shootDelay = TickTimer.CreateFromSeconds(Runner, _gunScript.ShootDelay);
 
-        _gunScript.Shoot(_angle);
+            _gunScript.Shoot(_angle);
+        }
+    }
+
+    private void SetBulletsUI()
+    {
+        _UIbulletsCountManager.SetBulletsCount(_currentBulletsCount);
+    }
+
+    public void ResetBullets()
+    {
+        _currentBulletsCount = _gunScript.MaxBullets;
+        SetBulletsUI();
     }
 
 

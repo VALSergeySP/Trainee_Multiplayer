@@ -1,13 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "Linear Wave", menuName = "Game Logic/Waves/Linear Wave")]
 public class WaveWithLinearSpawn : WaveSO
 {
     private List<float> _timeToSpawnEachEnemy = new();
     private List<float> _timersForEachEnemy = new();
+
+    private List<float> _timeToSpawnEachItem = new();
+    private List<float> _timersForEachItem = new();
 
     public override void Init(GameStateManager gameManager)
     {
@@ -20,6 +21,13 @@ public class WaveWithLinearSpawn : WaveSO
             time = _waveDurationTime / (_enemies[i].count);
             _timeToSpawnEachEnemy.Add(time);
             _timersForEachEnemy.Add(0f);
+        }
+
+        for (int i = 0; i < _items.Length; i++)
+        {
+            time = _waveDurationTime / (_items[i].count);
+            _timeToSpawnEachItem.Add(time);
+            _timersForEachItem.Add(0f);
         }
     }
 
@@ -37,12 +45,26 @@ public class WaveWithLinearSpawn : WaveSO
 
             _timersForEachEnemy[i] += Time.deltaTime;
         }
+
+        for (int i = 0; i < _items.Length; i++)
+        {
+            if (_timersForEachItem[i] > _timeToSpawnEachItem[i])
+            {
+                _timersForEachItem[i] = 0f;
+                SpawnItemOfType(_items[i].item);
+            }
+
+            _timersForEachItem[i] += Time.deltaTime;
+        }
     }
 
     private void SpawnEnemyOfType(Enemy enemy)
     {
-        Debug.Log("Spawned enemy!");
+        EnemiesSpawner.Instance.SpawnNewEnemy(enemy); // Перенести в гейм менеджера
+    }
 
-        EnemiesSpawner.Instance.SpawnNewEnemy(enemy);
+    private void SpawnItemOfType(CollectibleItemBase item)
+    {
+        _gameManager.SpawnNewItem(item);
     }
 }

@@ -13,12 +13,20 @@ public class WaveSO : ScriptableObject
         public int count;
     }
 
+    [Serializable]
+    public struct ItemToSpawn
+    {
+        public CollectibleItemBase item;
+        public int count;
+    }
+
     // Add pickups later
     [SerializeField] protected string _waveName = "Base";
     public string WaveName { get => _waveName; }
     [SerializeField] protected float _waveDurationTime = 1f;
     public float WaveDurationTime { get => _waveDurationTime; }
     [SerializeField] protected EnemyToSpawn[] _enemies;
+    [SerializeField] protected ItemToSpawn[] _items;
 
     private float _timer;
     protected GameStateManager _gameManager;

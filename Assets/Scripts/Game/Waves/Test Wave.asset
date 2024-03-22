@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Test Wave
   m_EditorClassIdentifier: 
   _waveName: Test
-  _waveDurationTime: 60
+  _waveDurationTime: 120
   _enemies:
   - enemy: {fileID: 6975375421754385642, guid: 51c199a240053ea4abd1e37452563754, type: 3}
-    count: 20
+    count: 10
