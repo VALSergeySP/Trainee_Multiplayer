@@ -357,10 +357,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 8862927754846001612}
-  TotalWords: 1
+  TotalWords: 2
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 00000000ed001c2f6f4f50aa9df4dab8cfaea591
+  StateHashes: 00000000ed001c2f6f4f50aa9df4dab8cfaea5912afa8626a8b5caa3
   TriggerHashes: 00000000
 --- !u!1 &8861388481111158503
 GameObject:

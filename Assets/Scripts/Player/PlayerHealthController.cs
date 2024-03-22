@@ -47,7 +47,6 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
     public void Damage(int damageAmount, int enemy)
     {
         CurrentHealth -= damageAmount;
-        Debug.Log($"Player was damaged! HP: {CurrentHealth}, Damage: {damageAmount}");
 
         if (Object.HasInputAuthority)
         {

@@ -16,4 +16,4 @@ MonoBehaviour:
   _waveDurationTime: 60
   _enemies:
   - enemy: {fileID: 6975375421754385642, guid: 51c199a240053ea4abd1e37452563754, type: 3}
-    count: 5
+    count: 20

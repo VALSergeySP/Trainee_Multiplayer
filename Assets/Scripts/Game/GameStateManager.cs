@@ -35,6 +35,14 @@ public class GameStateManager : NetworkBehaviour
         }
     }
 
+    public void OnAllPlayersDead()
+    {
+        if (Runner.IsServer)
+        {
+            GameManagerStateMachine.ChangeState(EndState);
+        }
+    }
+
     public bool CanSpawnObjects()
     {
         return Runner.IsServer;
