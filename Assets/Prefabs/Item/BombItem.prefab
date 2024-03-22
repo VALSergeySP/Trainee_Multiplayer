@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a76db455031fd4aa7f6aedde9fa441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _itemDespawnTime: 60
   _damageAmount: 50
   _damageRadius: 3
   _despawnTime: 0.3

@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 110c92b854e549a4b9835c497c452b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _itemDespawnTime: 40
   _healthHealAmount: 20
 --- !u!95 &6056534020374176716
 Animator:

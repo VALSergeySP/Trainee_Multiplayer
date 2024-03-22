@@ -24,6 +24,7 @@ public class Enemy : NetworkBehaviour, IDamagable, IEnemyMovable
 
     [SerializeField] private EnemyIdleSOBase EnemyIdleBase;
     [SerializeField] private EnemyAttackSOBase EnemyAttackBase;
+    [SerializeField] private int _enemyDamage = 10;
 
     public EnemyIdleSOBase EnemyIdleBaseInstance { get; set; }
     public EnemyAttackSOBase EnemyAttackBaseInstance { get; set; }
@@ -129,5 +130,13 @@ public class Enemy : NetworkBehaviour, IDamagable, IEnemyMovable
         RB.velocity = velocity;
 
         CheckForLeftOrRightFacing(velocity);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<IDamagable>().Damage(_enemyDamage, 0);
+        }
     }
 }
