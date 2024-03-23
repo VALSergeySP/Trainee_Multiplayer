@@ -7,7 +7,7 @@ public class PlayerController : NetworkBehaviour
     private int _velocityId = Animator.StringToHash("velocity");
 
 
-    private string SPECTATOR_TAG = "Spectator";
+    private readonly string SPECTATOR_TAG = "Spectator";
     private Rigidbody2D _rb;
     [SerializeField] private float _movementSpeed = 5f;
 
@@ -26,7 +26,7 @@ public class PlayerController : NetworkBehaviour
         int deadPlayersCount = 0;
         foreach(var player in players)
         {
-            if(player.tag == SPECTATOR_TAG) deadPlayersCount++;
+            if(player.CompareTag(SPECTATOR_TAG)) deadPlayersCount++;
         }
 
         if(deadPlayersCount >= Runner.SessionInfo.PlayerCount)

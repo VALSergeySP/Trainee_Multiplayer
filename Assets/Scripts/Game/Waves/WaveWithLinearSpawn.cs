@@ -4,10 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Linear Wave", menuName = "Game Logic/Waves/Linear Wave")]
 public class WaveWithLinearSpawn : WaveSO
 {
-    private List<float> _timeToSpawnEachEnemy = new();
-    private List<float> _timersForEachEnemy = new();
+    private List<float> _timeToSpawnEachEnemy = new(); // Time intervals between each enemy spawn
+    private List<float> _timersForEachEnemy = new(); // Timers for spawn
 
-    private List<float> _timeToSpawnEachItem = new();
+    private List<float> _timeToSpawnEachItem = new(); // Same for items
     private List<float> _timersForEachItem = new();
 
     public override void Init(GameStateManager gameManager)
@@ -60,7 +60,7 @@ public class WaveWithLinearSpawn : WaveSO
 
     private void SpawnEnemyOfType(Enemy enemy)
     {
-        EnemiesSpawner.Instance.SpawnNewEnemy(enemy); // Перенести в гейм менеджера
+        _gameManager.EnemiesSpawnerInstance.SpawnNewEnemy(enemy);
     }
 
     private void SpawnItemOfType(CollectibleItemBase item)

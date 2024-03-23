@@ -12,7 +12,7 @@ public class BombItem : CollectibleItemBase
 
     protected override void OnCollected(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag(PLAYER_TAG))
         {
             _playerId = collision.GetComponent<NetworkObject>().InputAuthority.PlayerId;
             BlowUp();

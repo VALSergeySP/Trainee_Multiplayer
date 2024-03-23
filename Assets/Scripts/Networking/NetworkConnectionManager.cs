@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 
 public class NetworkConnectionManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
-    private string _lobbyName = "CustomLobby";
+    private const string MAIN_MENU_SCENE = "MainMenuScene";
+
+    private readonly string _lobbyName = "CustomLobby";
 
     [SerializeField] private NetworkRunner _runnerPrefab;
     private NetworkRunner _networkRunner;
@@ -37,7 +39,7 @@ public class NetworkConnectionManager : NetworkBehaviour, INetworkRunnerCallback
         _networkRunner.name = "Network runner";
         _networkRunner.ProvideInput = true;
 
-        if (SceneManager.GetActiveScene().name != "MainMenuScene")
+        if (SceneManager.GetActiveScene().name != MAIN_MENU_SCENE)
         {
             var clientTask = StartGame(_networkRunner, GameMode.AutoHostOrClient, "Test", NetAddress.Any(), SceneRef.FromIndex(SceneUtility.GetBuildIndexByScenePath($"scenes/GameScene")), _networkRunner.GetComponent<NetworkSceneManagerDefault>());
         }
@@ -48,7 +50,7 @@ public class NetworkConnectionManager : NetworkBehaviour, INetworkRunnerCallback
         }
     }
 
-    private async Task StartGame(NetworkRunner runner, GameMode mode, string sessionName, NetAddress address, SceneRef scene, NetworkSceneManagerDefault sceneManager) // byte[] connectionToken,
+    private async Task StartGame(NetworkRunner runner, GameMode mode, string sessionName, NetAddress address, SceneRef scene, NetworkSceneManagerDefault sceneManager)
     {
         await runner.StartGame(new StartGameArgs()
         {
@@ -57,11 +59,8 @@ public class NetworkConnectionManager : NetworkBehaviour, INetworkRunnerCallback
             Scene = scene,
             SessionName = sessionName,
             CustomLobbyName = _lobbyName,
-            //ConnectionToken = connectionToken,
             SceneManager = sceneManager
         });
-
-        //await runner.LoadScene(SceneRef.FromIndex(1));
     }
 
     #region Useless
@@ -114,7 +113,6 @@ public class NetworkConnectionManager : NetworkBehaviour, INetworkRunnerCallback
     public void CreateGame(string sessionName, string sceneName)
     {
         var clientTask = StartGame(_networkRunner, GameMode.Host, sessionName, NetAddress.Any(), SceneRef.FromIndex(SceneUtility.GetBuildIndexByScenePath($"scenes/{sceneName}")), _networkRunner.GetComponent<NetworkSceneManagerDefault>());
-        //var clientTask = StartGame(_runner, GameMode.Host, sessionName, NetAddress.Any(), SceneRef.FromIndex(0), _runner.GetComponent<NetworkSceneManagerDefault>());
     }
 
     public void JoinGame(SessionInfo sessionInfo)

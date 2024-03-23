@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GameWaveState : GameStateBase
 {
+    private const int STATE_ID = 2;
+
     private WaveSO _currentWave;
 
     public GameWaveState(GameStateManager gameStateManager, StateMachine stateMachine) : base(gameStateManager, stateMachine)
@@ -11,7 +13,6 @@ public class GameWaveState : GameStateBase
     public override void EnterState()
     {
         base.EnterState();
-        Debug.Log("Game wave state!");
 
         _currentWave = _gameStateManager.GetNextWave();
 
@@ -29,20 +30,19 @@ public class GameWaveState : GameStateBase
 
         if (_currentWave != null)
         {
-            UIManager.Instance.Timer.StartTimerWithValue(_currentWave.WaveDurationTime);
-            UIManager.Instance.Timer.SetStateName(_currentWave.WaveName);
+            _gameStateManager.UIManagerInstance.Timer.StartTimerWithValue(_currentWave.WaveDurationTime);
+            _gameStateManager.UIManagerInstance.Timer.SetStateName(_currentWave.WaveName);
         } else
         {
-            UIManager.Instance.Timer.ResetTimer();
-            UIManager.Instance.Timer.SetStateName("Wave...");
+            _gameStateManager.UIManagerInstance.Timer.ResetTimer();
+            _gameStateManager.UIManagerInstance.Timer.SetStateName("Wave...");
         }
 
-        _gameStateManager.SendRpcStateId(2);
+        _gameStateManager.SendRpcStateId(STATE_ID);
     }
 
     public override void ExitState()
     {
-        Debug.Log("Game wave exit state!");
         base.ExitState();
     }
 

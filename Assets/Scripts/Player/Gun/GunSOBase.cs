@@ -1,4 +1,3 @@
-using Fusion;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Gun Data", menuName = "Player/Gun/Gun Data")]

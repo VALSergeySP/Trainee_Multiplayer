@@ -43586,6 +43586,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7906c78805a4ba84fa80ddad98247330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemiesSpawner: {fileID: 924771494}
+  _UIManager: {fileID: 1737058568}
   _waves:
   - {fileID: 11400000, guid: ea3a696dd42c558488170502eb5acb4c, type: 2}
   - {fileID: 11400000, guid: f8723129b3370d04ca28c64ef0db4c0d, type: 2}

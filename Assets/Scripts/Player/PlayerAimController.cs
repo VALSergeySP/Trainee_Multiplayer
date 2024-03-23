@@ -5,19 +5,18 @@ public class PlayerAimController : NetworkBehaviour
 {
     private NetworkUIInput[] _uiManagers;
 
-    private bool _isPlayerAlive = true;
 
-    private NetworkObject _gun;
     [SerializeField] private GunBase _gunPrefab;
     [SerializeField] private Vector2 _gunSpawnOffset;
-    private GunBase _gunScript;
-
-    private int _currentBulletsCount;
-
     [SerializeField] private Transform _body;
 
     [Networked] private TickTimer _shootDelay { get; set; }
 
+    private NetworkObject _gun;
+    private GunBase _gunScript;
+    private bool _isPlayerAlive = true;
+
+    private int _currentBulletsCount;
     private float _angle;
 
     public void Init(NetworkObject newGun)
@@ -29,6 +28,7 @@ public class PlayerAimController : NetworkBehaviour
         _currentBulletsCount = _gunScript.MaxBullets;
 
         GetComponent<PlayerHealthController>().OnPlayerDeathEvent += OnPlayerDeath;
+
         _uiManagers = FindObjectsOfType<NetworkUIInput>();
         foreach(var manager in _uiManagers)
         {
@@ -49,30 +49,29 @@ public class PlayerAimController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if (_isPlayerAlive)
+        if (!_isPlayerAlive) { return; }
+
+        if (Runner.TryGetInputForPlayer<NetworkInputData>(Object.InputAuthority, out var data))
         {
-            if (Runner.TryGetInputForPlayer<NetworkInputData>(Object.InputAuthority, out var data))
+            if (_gun != null)
             {
-                if (_gun != null)
-                {
-                    _gun.transform.position = (Vector2)transform.position + _gunSpawnOffset;
-                    data.aimDirection.Normalize();
+                _gun.transform.position = (Vector2)transform.position + _gunSpawnOffset;
+                data.aimDirection.Normalize();
 
-                    if (data.aimDirection == Vector2.zero) { return; }
+                if (data.aimDirection == Vector2.zero) { return; }
 
-                    RotateGun(data.aimDirection);
-                    RotateBody(data.aimDirection);
-                }
+                RotateGun(data.aimDirection);
+                RotateBody(data.aimDirection);
             }
+        }
 
-            if (GetInput(out NetworkInputData shootData))
+        if (GetInput(out NetworkInputData shootData))
+        {
+            if (HasStateAuthority && _shootDelay.ExpiredOrNotRunning(Runner))
             {
-                if (HasStateAuthority && _shootDelay.ExpiredOrNotRunning(Runner))
+                if (shootData.aimDirection != Vector2.zero)
                 {
-                    if (shootData.aimDirection != Vector2.zero)
-                    {
-                        Shoot();
-                    }
+                    Shoot();
                 }
             }
         }

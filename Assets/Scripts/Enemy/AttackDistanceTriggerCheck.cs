@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackDistanceTriggerCheck : MonoBehaviour
 {
     private Enemy _enemy;
     private Collider2D playerCollisionRef;
+
+    private const string PLAYER_TAG = "Player";
 
     private void Start()
     {
@@ -14,7 +14,7 @@ public class AttackDistanceTriggerCheck : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag(PLAYER_TAG))
         {
             if (_enemy != null)
             {

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "Distance Attack", menuName = "Enemy/Attack/Distance Attack")]
 public class EnemyDistanceAttack : EnemyAttackSOBase
@@ -59,7 +58,7 @@ public class EnemyDistanceAttack : EnemyAttackSOBase
         Vector2 aimDirection = (target - (Vector2)_transform.position).normalized;
 
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-        EnemiesSpawner.Instance.SpawnBulletInNetwork(_projectilePrefab, _transform.position, angle, _despawnTime);
+        _enemy.Spawner.SpawnBulletInNetwork(_projectilePrefab, _transform.position, angle, _despawnTime);
     }
 
     public override void DoPhisicsUpdateLogic()

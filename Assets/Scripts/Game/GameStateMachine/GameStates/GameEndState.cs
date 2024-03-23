@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 
 public class GameEndState : GameStateBase
 {
-    private int _stateId = 4;
+    private const int STATE_ID = 4;
 
     public GameEndState(GameStateManager gameStateManager, StateMachine stateMachine) : base(gameStateManager, stateMachine)
     {
@@ -13,7 +10,6 @@ public class GameEndState : GameStateBase
 
     public override void EnterState()
     {
-        Debug.Log("Game ended!");
         base.EnterState();
 
         NetworkUIInput[] inputs = Object.FindObjectsOfType<NetworkUIInput>();
@@ -23,11 +19,12 @@ public class GameEndState : GameStateBase
             input.OnEndGame();
         }
 
-        UIManager.Instance.EndGameCanvas.gameObject.SetActive(true);
-        UIManager.Instance.PlayerControllCanvas.gameObject.SetActive(false);
-        UIManager.Instance.GameUICanvas.gameObject.SetActive(false);
-        UIManager.Instance.GameStartCanvas.gameObject.SetActive(false);
-        _gameStateManager.SendRpcStateId(_stateId);
+        _gameStateManager.UIManagerInstance.EndGameCanvas.gameObject.SetActive(true);
+        _gameStateManager.UIManagerInstance.PlayerControllCanvas.gameObject.SetActive(false);
+        _gameStateManager.UIManagerInstance.GameUICanvas.gameObject.SetActive(false);
+        _gameStateManager.UIManagerInstance.GameStartCanvas.gameObject.SetActive(false);
+
+        _gameStateManager.SendRpcStateId(STATE_ID);
     }
 
     public override void ExitState()

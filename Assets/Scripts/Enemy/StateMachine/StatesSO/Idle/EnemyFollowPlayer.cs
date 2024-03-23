@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -7,6 +5,8 @@ using UnityEngine;
 public class EnemyFollowPlayer : EnemyIdleSOBase
 {
     [SerializeField] private float _enemyMovementSpeed = 5f;
+
+    private const string PLAYER_TAG = "Player";
 
     private Transform _playerTransform;
     private Vector3 _movementDirection;
@@ -33,7 +33,7 @@ public class EnemyFollowPlayer : EnemyIdleSOBase
         base.DoFrameUpdateLogic();
 
         
-        if(_playersTransform == null || !_playerTransform.CompareTag("Player"))
+        if(_playersTransform == null || !_playerTransform.CompareTag(PLAYER_TAG))
         {
             _playerTransform = GetPlayerPosition();
         }
@@ -64,7 +64,7 @@ public class EnemyFollowPlayer : EnemyIdleSOBase
 
         int num = Random.Range(0, _playersTransform.Count);
 
-        if(_playersTransform[num] == null || !_playersTransform[num].gameObject.CompareTag("Player"))
+        if(_playersTransform[num] == null || !_playersTransform[num].gameObject.CompareTag(PLAYER_TAG))
         {
             _playersTransform.Remove(_playersTransform[num]);
             return _playersTransform[0];

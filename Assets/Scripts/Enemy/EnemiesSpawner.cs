@@ -10,19 +10,6 @@ public class EnemiesSpawner : NetworkBehaviour
     [SerializeField] private Vector2 _mapSizes;
     private List<Transform> _spawnersTransfroms = new();
 
-    public static EnemiesSpawner Instance { get; private set; } 
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        } else
-        {
-            Destroy(gameObject);
-        }
-    }
-
 
     public void RecieveDamageFromPlayer(int amount, int id)
     {
@@ -45,7 +32,7 @@ public class EnemiesSpawner : NetworkBehaviour
         for (int i = 0; i < _spawnersOnMap; i++)
         {
             Vector2 randomPostion = GetRandomSpawnPosition();
-            NetworkObject obj = Runner.Spawn(_spawnerPrefab, randomPostion, Quaternion.identity, Object.InputAuthority);
+            NetworkObject obj = Runner.Spawn(_spawnerPrefab, randomPostion, Quaternion.identity, null);
             obj.transform.parent = transform;
             _spawnersTransfroms.Add(obj.transform);
         }
@@ -57,9 +44,10 @@ public class EnemiesSpawner : NetworkBehaviour
         {
             int spawnerNum = Random.Range(0, _spawnersTransfroms.Count);
 
-            NetworkObject obj = Runner.Spawn(enemy.gameObject, _spawnersTransfroms[spawnerNum].transform.position, Quaternion.identity, Object.InputAuthority);
-
-            obj.transform.parent = transform;
+            Runner.Spawn(enemy.gameObject, _spawnersTransfroms[spawnerNum].transform.position, Quaternion.identity, null, (runner, o) => {
+                o.GetComponent<Enemy>().Init(this);
+                o.transform.parent = transform;
+            });
         }
     }
 
@@ -73,6 +61,7 @@ public class EnemiesSpawner : NetworkBehaviour
             });
         }
     }
+
     public void SpawnMelleeInNetwork(EnemyMeleeProjectile obj, Vector2 pos, float despawnTime)
     {
         if (Runner.IsServer)

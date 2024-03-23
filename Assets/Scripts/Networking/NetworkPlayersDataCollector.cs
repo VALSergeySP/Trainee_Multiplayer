@@ -1,8 +1,9 @@
 using Fusion;
-using UnityEngine;
 
 public class NetworkPlayersDataCollector : NetworkBehaviour
 {
+    private const string PLAYER_TAG = "Player";
+
     private bool _connected = false;
 
     private NetworkUIInput[] _rpcSenders;
@@ -49,7 +50,7 @@ public class NetworkPlayersDataCollector : NetworkBehaviour
 
         for (int i = 0; i < players.Length; i++)
         {
-            if (!players[i].gameObject.CompareTag("Player"))
+            if (!players[i].gameObject.CompareTag(PLAYER_TAG))
             {
                 int playerId = players[i].Object.InputAuthority.PlayerId;
                 _playersStatus[playerId - 1] = false;

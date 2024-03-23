@@ -3,17 +3,20 @@ using UnityEngine;
 
 public abstract class CollectibleItemBase : NetworkBehaviour
 {
+    protected const string PLAYER_TAG = "Player";
+
+
     [SerializeField] private float _itemDespawnTime = 20f;
-    [Networked] private TickTimer life { get; set; }
+    [Networked] private TickTimer Life { get; set; }
 
     public override void Spawned()
     {
-        life = TickTimer.CreateFromSeconds(Runner, _itemDespawnTime);
+        Life = TickTimer.CreateFromSeconds(Runner, _itemDespawnTime);
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (life.Expired(Runner))
+        if (Life.Expired(Runner))
             Runner.Despawn(Object);
     }
 

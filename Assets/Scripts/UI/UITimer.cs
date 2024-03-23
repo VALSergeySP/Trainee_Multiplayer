@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -46,7 +45,20 @@ public class UITimer : MonoBehaviour
         int minutes = (int)Mathf.Floor(value / 60f);
         int seconds = (int)Mathf.Round(value % 60f);
 
-        res += minutes + ":" + seconds;
+        if(minutes < 10)
+        {
+            res += "0" + minutes + ":";
+        } else
+        {
+            res += minutes + ":";
+        }
+        if(seconds < 10)
+        {
+            res += "0" + seconds;
+        } else
+        {
+            res += seconds;
+        }
 
         return res;
     }

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static Unity.Collections.Unicode;
-using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
+
 
 public class NetworkPlayerSpawner : NetworkBehaviour
 {
-    private int _variantNum = 0;
     private int[] _playersVariantsNum = new int[2];
     [SerializeField] private Button _startButton; 
     
@@ -16,6 +14,7 @@ public class NetworkPlayerSpawner : NetworkBehaviour
     [SerializeField] private NetworkObject[] _playerGunPrefabs;
     private List<NetworkObject> _gunsList = new();
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+
 
     public override void Spawned()
     {
@@ -32,7 +31,6 @@ public class NetworkPlayerSpawner : NetworkBehaviour
 
     public void OnVariant(int num)
     {
-        _variantNum = num;
         NetworkUIInput[] inputs = FindObjectsOfType<NetworkUIInput>();
 
         foreach (var input in inputs)
@@ -68,7 +66,6 @@ public class NetworkPlayerSpawner : NetworkBehaviour
 
     private void SpawnPlayers()
     {
-        Debug.Log(Runner.ToString());
         if (Runner.IsServer)
         {
             NetworkSpawnManager networkSpawnManager = FindObjectOfType<NetworkSpawnManager>();

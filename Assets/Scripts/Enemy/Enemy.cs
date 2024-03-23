@@ -1,33 +1,42 @@
 using Fusion;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Enemy : NetworkBehaviour, IDamagable, IEnemyMovable
 {
     private Animator _animator;
-    private int _hitIndex = Animator.StringToHash("Hit");
-    private int _deadIndex = Animator.StringToHash("Dead");
+    private readonly int _hitIndex = Animator.StringToHash("Hit");
+    private readonly int _deadIndex = Animator.StringToHash("Dead");
+
+    public enum AnimationTriggerType
+    {
+        EnemyDamaged,
+        EnemyKilled
+    }
 
 
-    [field: SerializeField] public int MaxHealth { get; set; } = 100;
-    public int CurrentHealth { get; set; }
-    public Rigidbody2D RB { get; set; }
-    public bool IsFacingRight { get; set; } = true;
+    private EnemiesSpawner _spawner;
+    public EnemiesSpawner Spawner { get => _spawner; }
 
-    public bool IsWithinAttackDistance { get; set; } = false;
 
-    public EnemyStateMachine StateMachineInstance { get; set; }
-    
-    public EnemyIdleState IdleState { get; set; }
-    public EnemyAttackState AttackState { get; set; }
-
+    // State machine
+    public EnemyStateMachine StateMachineInstance { get; private set; }
+    public EnemyIdleState IdleState { get; private set; }
+    public EnemyAttackState AttackState { get; private set; }
 
     [SerializeField] private EnemyIdleSOBase EnemyIdleBase;
     [SerializeField] private EnemyAttackSOBase EnemyAttackBase;
+
+    public EnemyIdleSOBase EnemyIdleBaseInstance { get; private set; }
+    public EnemyAttackSOBase EnemyAttackBaseInstance { get; private set; }
+
+    public bool IsWithinAttackDistance { get; set; } = false;
     [SerializeField] private int _enemyDamage = 10;
 
-    public EnemyIdleSOBase EnemyIdleBaseInstance { get; set; }
-    public EnemyAttackSOBase EnemyAttackBaseInstance { get; set; }
+
+    public void Init(EnemiesSpawner spawner)
+    {
+        _spawner = spawner;
+    }
 
     private void Awake()
     {
@@ -62,6 +71,20 @@ public class Enemy : NetworkBehaviour, IDamagable, IEnemyMovable
         StateMachineInstance.CurrentState.PhysicsUpdate();
     }
 
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<IDamagable>().Damage(_enemyDamage);
+        }
+    }
+
+
+    // IEnemyMovable
+    public Rigidbody2D RB { get; set; }
+    public bool IsFacingRight { get; set; } = true;
+
     public void CheckForLeftOrRightFacing(Vector2 velocity)
     {
         if (IsFacingRight && velocity.x < 0f)
@@ -75,20 +98,18 @@ public class Enemy : NetworkBehaviour, IDamagable, IEnemyMovable
             IsFacingRight = true;
         }
     }
-    public void AnimationTriggerEvent(AnimationTriggerType type)
+
+    public void MoveEnemy(Vector2 velocity)
     {
-        EnemyState currentState = (EnemyState)StateMachineInstance.CurrentState;
-        if (currentState != null)
-        {
-            currentState.AnimationTriggerEvent(type);
-        }
+        RB.velocity = velocity;
+
+        CheckForLeftOrRightFacing(velocity);
     }
 
-    public enum AnimationTriggerType
-    {
-        EnemyDamaged,
-        EnemyKilled
-    }
+
+    // IDamagable
+    [field: SerializeField] public int MaxHealth { get; set; } = 100;
+    public int CurrentHealth { get; set; }
 
     public void Damage(int damageAmount, int damageCauseByPlayerId)
     {
@@ -98,15 +119,16 @@ public class Enemy : NetworkBehaviour, IDamagable, IEnemyMovable
         
         if(damageCauseByPlayerId > 0)
         {
-            EnemiesSpawner.Instance.RecieveDamageFromPlayer(damageAmount, damageCauseByPlayerId);
+            _spawner.RecieveDamageFromPlayer(damageAmount, damageCauseByPlayerId);
         }
 
         if (CurrentHealth <= 0)
         {
             Die();
+
             if (damageCauseByPlayerId > 0)
             {
-                EnemiesSpawner.Instance.KilledByPlayer(damageCauseByPlayerId);
+                _spawner.KilledByPlayer(damageCauseByPlayerId);
             }
         }
     }
@@ -117,26 +139,6 @@ public class Enemy : NetworkBehaviour, IDamagable, IEnemyMovable
         GetComponent<Collider2D>().enabled = false;
         _animator.SetBool(_deadIndex, true);
 
-        DespawnEnemy();
-    }
-
-    private void DespawnEnemy()
-    {
         Runner.Despawn(Object);
-    }
-
-    public void MoveEnemy(Vector2 velocity)
-    {
-        RB.velocity = velocity;
-
-        CheckForLeftOrRightFacing(velocity);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Player"))
-        {
-            collision.gameObject.GetComponent<IDamagable>().Damage(_enemyDamage, 0);
-        }
     }
 }

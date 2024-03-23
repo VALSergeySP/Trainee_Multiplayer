@@ -8,18 +8,21 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
     private int _healTrigger = Animator.StringToHash("Heal");
     private int _deathBool = Animator.StringToHash("Dead");
 
+
     public delegate void OnPlayerDeath();
     public event OnPlayerDeath OnPlayerDeathEvent;
 
+
     private ChangeDetector _changeDetector;
-    private UIPlayerHealthManager _healthUI;
+
 
     [field: SerializeField] public int MaxHealth { get; set; }
     [Networked] public int CurrentHealth { get; set; }
 
-    /*
-    [Networked] 
-    private NetworkBool _networkIsDead { get; set; }*/
+    
+
+    private UIPlayerHealthManager _healthUI;
+
 
     public override void Spawned()
     {
@@ -33,6 +36,7 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
             _healthUI.SetHealth(CurrentHealth, MaxHealth);
         }
     }
+
 
     public override void Render()
     {
@@ -50,6 +54,7 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
         }
     }
 
+
     public void Damage(int damageAmount, int enemy)
     {
         CurrentHealth -= damageAmount;
@@ -66,6 +71,7 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
         }
     }
 
+
     public void Healing(int healAmount)
     {
         CurrentHealth += healAmount;
@@ -78,6 +84,7 @@ public class PlayerHealthController : NetworkBehaviour, IDamagable
             _healthUI.SetHealth(CurrentHealth, MaxHealth);
         }
     }
+
 
     public void Die()
     {

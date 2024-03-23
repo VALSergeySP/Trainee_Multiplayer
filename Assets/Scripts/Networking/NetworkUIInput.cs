@@ -43,7 +43,7 @@ public class NetworkUIInput : NetworkBehaviour
 
             RPC_RelayEndGameInfo(data.Item1, data.Item2, data.Item3, data.Item4);
 
-            EnemiesSpawner.Instance.DeleteAllEnemies();
+            FindObjectOfType<EnemiesSpawner>().DeleteAllEnemies();
         }
     }
 
@@ -55,6 +55,8 @@ public class NetworkUIInput : NetworkBehaviour
         }
     }
 
+
+    // Для отправки варианта выбора персонажа клиентами к серверу
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, HostMode = RpcHostMode.SourceIsHostPlayer)]
     public void RPC_SendPlayerChangedSkin(int newVariant, RpcInfo info = default)
     {
@@ -62,12 +64,16 @@ public class NetworkUIInput : NetworkBehaviour
         RPC_RelayPlayerChangedSkin(newVariant, info.Source);
     }
 
+
+    // Для отправки выбраного клиентом варианта с сервера клиентам
     [Rpc(RpcSources.StateAuthority, RpcTargets.All, HostMode = RpcHostMode.SourceIsServer)]
     public void RPC_RelayPlayerChangedSkin(int newVariant, PlayerRef messageSource)
     {
         _uiManager.SkinMenu.SetCurrentVariant(newVariant, messageSource.PlayerId);
     }
 
+
+    // Отправка колл-ва убийств игрокам с сервера
     [Rpc(RpcSources.StateAuthority, RpcTargets.All, HostMode = RpcHostMode.SourceIsServer)]
     public void RPC_RelayPlayerKills(int killsCount, int playerId)
     {
@@ -80,6 +86,8 @@ public class NetworkUIInput : NetworkBehaviour
         }
     }
 
+
+    // Отправка колл-ва пуль игрокам с сервера
     [Rpc(RpcSources.StateAuthority, RpcTargets.All, HostMode = RpcHostMode.SourceIsServer)]
     public void RPC_RelayPlayerBullets(int bullets, int playerId, bool init = false)
     {
@@ -98,6 +106,8 @@ public class NetworkUIInput : NetworkBehaviour
         }
     }
 
+
+    // Отправка информации для таблицы лидеров клиентам с сервера
     [Rpc(RpcSources.StateAuthority, RpcTargets.All, HostMode = RpcHostMode.SourceIsServer)]
     public void RPC_RelayEndGameInfo(int[] variants, int[] kills, int[] damage, bool[] status)
     {

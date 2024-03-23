@@ -1,9 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAttackSOBase : ScriptableObject
 {
+    private const string PLAYER_TAG = "Player";
+
     protected Enemy _enemy;
     protected Transform _transform;
     protected GameObject _gameObject;
@@ -16,7 +17,7 @@ public class EnemyAttackSOBase : ScriptableObject
         _transform = gameObject.transform;
         _enemy = enemy;
 
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag(PLAYER_TAG);
 
         foreach (var obj in playerObjects)
         {

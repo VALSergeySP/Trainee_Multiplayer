@@ -1,19 +1,26 @@
 using Fusion;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameStateManager : NetworkBehaviour
 {
-    private NetworkStateManager _networkStateManager;
+    [SerializeField] private EnemiesSpawner _enemiesSpawner; // For spawning enemies in network
+    public EnemiesSpawner EnemiesSpawnerInstance { get => _enemiesSpawner; }
+
+    [SerializeField] private UIManager _UIManager;
+    public UIManager UIManagerInstance { get => _UIManager; }
+
+
+    private NetworkStateManager _networkStateManager; // For changing states in clients
     public NetworkStateManager NetworkStateManagerInstance { get => _networkStateManager; }
 
+
     [SerializeField] private WaveSO[] _waves;
-    [SerializeField] private float _waitTime = 30f;
+    [SerializeField] private float _waitTime = 30f; // Time between waves
     [SerializeField] private Vector2 _mapSizes;
-    public float WaitTime { get => _waitTime; }
     private int _currentWave;
 
+
+    public float WaitTime { get => _waitTime; }
     public bool IsLoading { get; private set; }
 
     public GameStateMachine GameManagerStateMachine { get; private set; }
@@ -52,6 +59,7 @@ public class GameStateManager : NetworkBehaviour
     public void ChangeStateById(int id)
     {
         if(Runner.IsServer) { return; }
+
         switch(id)
         {
             case 0:
@@ -86,6 +94,7 @@ public class GameStateManager : NetworkBehaviour
         EndState = new GameEndState(this, GameManagerStateMachine);
     }
 
+
     private void Start()
     {
         GameManagerStateMachine.Initialize(LoadingState);
@@ -94,15 +103,18 @@ public class GameStateManager : NetworkBehaviour
         Invoke(nameof(TestFunction), 3f); // Test
     }
 
+
     private void Update()
     {
         GameManagerStateMachine.CurrentState.FrameUpdate();
     }
 
+
     private void FixedUpdate()
     {
         GameManagerStateMachine.CurrentState.PhysicsUpdate();
     }
+
 
     public WaveSO GetNextWave()
     {
@@ -117,16 +129,18 @@ public class GameStateManager : NetworkBehaviour
         }
     }
 
+
     public bool CheckIsGameEnd()
     {
         return _currentWave >= _waves.Length;
     }
 
+
     public void SpawnNewItem(CollectibleItemBase item)
     {
         if (Runner.IsServer)
         {
-            NetworkObject obj = Runner.Spawn(item.gameObject, GetRandomSpawnPosition(), Quaternion.identity, null);
+            Runner.Spawn(item.gameObject, GetRandomSpawnPosition(), Quaternion.identity, null);
         }
     }
 

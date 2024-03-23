@@ -24,6 +24,5 @@ public class NetworkStateManager : NetworkBehaviour
     public void RPC_ChangeGameState(int newState)
     {
         ChangeGameState(newState);
-        Debug.Log($"Changing state to {newState}");
     }
 }

@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-//[CreateAssetMenu(fileName = "New Wave", menuName = "Game Logic/Waves/Wave")]
+
 public class WaveSO : ScriptableObject
 {
     [Serializable]
@@ -13,6 +11,7 @@ public class WaveSO : ScriptableObject
         public int count;
     }
 
+
     [Serializable]
     public struct ItemToSpawn
     {
@@ -20,13 +19,16 @@ public class WaveSO : ScriptableObject
         public int count;
     }
 
-    // Add pickups later
+
     [SerializeField] protected string _waveName = "Base";
     public string WaveName { get => _waveName; }
+
     [SerializeField] protected float _waveDurationTime = 1f;
     public float WaveDurationTime { get => _waveDurationTime; }
+
     [SerializeField] protected EnemyToSpawn[] _enemies;
     [SerializeField] protected ItemToSpawn[] _items;
+
 
     private float _timer;
     protected GameStateManager _gameManager;

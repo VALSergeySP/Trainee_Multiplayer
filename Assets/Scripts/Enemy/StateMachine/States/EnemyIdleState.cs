@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class EnemyIdleState : EnemyState
 {
     public EnemyIdleState(Enemy enemy, StateMachine stateMachine) : base(enemy, stateMachine)
@@ -44,8 +40,6 @@ public class EnemyIdleState : EnemyState
     public override void NetworkUpdate()
     {
         base.NetworkUpdate();
-
-        //enemy.EnemyIdleBaseInstance.DoNetworkUpdateLogic();
     }
 
     public override void PhysicsUpdate()

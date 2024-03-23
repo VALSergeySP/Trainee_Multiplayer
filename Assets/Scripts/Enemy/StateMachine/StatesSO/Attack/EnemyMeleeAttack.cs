@@ -43,7 +43,7 @@ public class EnemyMeleeAttack : EnemyAttackSOBase
 
     private void Attack()
     {
-        EnemiesSpawner.Instance.SpawnMelleeInNetwork(_attackPrefab, _transform.position, _despawnTime);
+        _enemy.Spawner.SpawnMelleeInNetwork(_attackPrefab, _transform.position, _despawnTime);
     }
 
     public override void DoPhisicsUpdateLogic()

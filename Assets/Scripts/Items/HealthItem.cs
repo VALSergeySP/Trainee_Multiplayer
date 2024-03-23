@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthItem : CollectibleItemBase
@@ -8,7 +6,7 @@ public class HealthItem : CollectibleItemBase
 
     protected override void OnCollected(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if(collision.CompareTag(PLAYER_TAG))
         {
             collision.SendMessage("Healing", _healthHealAmount);
             Runner.Despawn(Object);

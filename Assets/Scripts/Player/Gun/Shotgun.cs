@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Shotgun : GunBase
 {
     [SerializeField] protected float _bulletSpreadAngle = 60f;
+
+
     public override void Shoot(float bulletDirection)
     {
         float step = _bulletSpreadAngle / _gunData.BulletsCount;

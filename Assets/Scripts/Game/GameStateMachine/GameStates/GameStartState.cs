@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class GameStartState : GameStateBase
 {
+    private const int STATE_ID = 1;
+
     public GameStartState(GameStateManager gameStateManager, StateMachine stateMachine) : base(gameStateManager, stateMachine)
     {
     }
@@ -11,11 +9,10 @@ public class GameStartState : GameStateBase
     public override void EnterState()
     {
         base.EnterState();
-        Debug.Log("Game start state!");
 
-        UIManager.Instance.GameStartCanvas.gameObject.SetActive(true);
+        _gameStateManager.UIManagerInstance.GameStartCanvas.gameObject.SetActive(true);
 
-        _gameStateManager.SendRpcStateId(1); 
+        _gameStateManager.SendRpcStateId(STATE_ID); 
     }
 
     public override void ExitState()
@@ -24,11 +21,12 @@ public class GameStartState : GameStateBase
 
         if (_gameStateManager.CanSpawnObjects())
         {
-            EnemiesSpawner.Instance.Init();
+            _gameStateManager.EnemiesSpawnerInstance.Init();
         }
-        UIManager.Instance.PlayerControllCanvas.gameObject.SetActive(true);
-        UIManager.Instance.GameUICanvas.gameObject.SetActive(true);
-        UIManager.Instance.GameStartCanvas.gameObject.SetActive(false);
+
+        _gameStateManager.UIManagerInstance.PlayerControllCanvas.gameObject.SetActive(true);
+        _gameStateManager.UIManagerInstance.GameUICanvas.gameObject.SetActive(true);
+        _gameStateManager.UIManagerInstance.GameStartCanvas.gameObject.SetActive(false);
     }
 
     public override void FrameUpdate()
