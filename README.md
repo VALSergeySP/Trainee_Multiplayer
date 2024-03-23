@@ -69,14 +69,14 @@
 
 <p align=center>
  <h2>Результат</h2>
-![image_2024-03-23_10-10-376](https://github.com/VALSergeySP/Trainee_Multiplayer/assets/60966931/264aeb51-c843-422c-bcb0-beaa530b1534)
-![image_2024-03-23_10-10-375](https://github.com/VALSergeySP/Trainee_Multiplayer/assets/60966931/f8b599df-be80-47d1-847b-ecb5aab2941f)
-![image_2024-03-23_10-10-374](https://github.com/VALSergeySP/Trainee_Multiplayer/assets/60966931/269d7d04-893e-43f7-a43b-60ffeacdb725)
-![image_2024-03-23_10-10-363](https://github.com/VALSergeySP/Trainee_Multiplayer/assets/60966931/62c89824-5298-450e-ba44-a137203d9f38)
-![image_2024-03-23_10-10-362](https://github.com/VALSergeySP/Trainee_Multiplayer/assets/60966931/470be6f0-30bc-4365-aab0-9d59eaf54e06)
-![image_2024-03-23_10-10-58](https://github.com/VALSergeySP/Trainee_Multiplayer/assets/60966931/fa0bac73-296e-4762-a36a-13b7f35a3e41)
-![image_2024-03-23_10-10-36](https://github.com/VALSergeySP/Trainee_Multiplayer/assets/60966931/9197e8a1-ad54-4ea1-9fc4-ea72d1662ce3)
-![7](https://github.com/VALSergeySP/Trainee_Multiplayer/assets/60966931/89a5af10-de90-4a15-a81f-d03312ff1763)
+ <img src="https://github.com/VALSergeySP/Trainee_Multiplayer/blob/develop/Assets/Undead_Screenshots/image_2024-03-23_10-10-58.png" alt="Screenshot 1"/>
+ <img src="https://github.com/VALSergeySP/Trainee_Multiplayer/blob/develop/Assets/Undead_Screenshots/image_2024-03-23_10-10-376.png" alt="Screenshot 2"/>
+ <img src="https://github.com/VALSergeySP/Trainee_Multiplayer/blob/develop/Assets/Undead_Screenshots/image_2024-03-23_10-10-375.png" alt="Screenshot 3"/>
+ <img src="https://github.com/VALSergeySP/Trainee_Multiplayer/blob/develop/Assets/Undead_Screenshots/image_2024-03-23_10-10-374.png" alt="Screenshot 4"/>
+ <img src="https://github.com/VALSergeySP/Trainee_Multiplayer/blob/develop/Assets/Undead_Screenshots/image_2024-03-23_10-10-363.png" alt="Screenshot 5"/>
+ <img src="https://github.com/VALSergeySP/Trainee_Multiplayer/blob/develop/Assets/Undead_Screenshots/image_2024-03-23_10-10-362.png" alt="Screenshot 6"/>
+ <img src="https://github.com/VALSergeySP/Trainee_Multiplayer/blob/develop/Assets/Undead_Screenshots/image_2024-03-23_10-10-36.png" alt="Screenshot 7"/>
+ <img src="https://github.com/VALSergeySP/Trainee_Multiplayer/blob/develop/Assets/Undead_Screenshots/7.png" alt="Screenshot 8"/>
 </p>
 
 </body>
