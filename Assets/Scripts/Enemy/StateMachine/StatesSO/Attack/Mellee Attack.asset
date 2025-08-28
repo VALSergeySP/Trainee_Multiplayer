@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b2aa1e754fda948b608ef65e38b7ff, type: 3}
+  m_Name: Mellee Attack
+  m_EditorClassIdentifier: 
+  _timeBetweenAttacks: 1
+  _attackPrefab: {fileID: 4816604529202413391, guid: 380aa79f6b958e74fbdb080fa8b1f2a4, type: 3}
